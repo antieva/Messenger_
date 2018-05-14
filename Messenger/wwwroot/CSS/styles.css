@@ -17,3 +17,18 @@ h1{
 h2{
   text-align: center;
 }
+
+[class*=underlay] {
+  left: 0;
+  min-height: 100%;
+  min-width: 100%;
+  position: fixed;
+  top: 0;
+}
+.underlay-photo {
+  animation: hue-rotate 6s infinite;
+  background: url('http://cdn.magdeleine.co/wp-content/uploads/2014/05/3jPYgeVCTWCMqjtb7Dqi_IMG_8251-1400x933.jpg');
+  background-size: cover;
+  -webkit-filter: grayscale(15%);
+  z-index: -1;
+}
