@@ -69,22 +69,7 @@ namespace MessengerApp.Tests
       CollectionAssert.AreEqual(test, allMessagesFromJim);
     }
 
-    // [TestMethod]
-    // public void Find_BloodBankID_True()
-    // {
-    //     //Arrange
-    //     BloodBank testBloodBank = new BloodBank("Puget Sound", "Seattle", "7777777");
-    //     testBloodBank.Save();
-    //
-    //     //Act
-    //     Console.WriteLine(testBloodBank.GetId());
-    //     BloodBank result = BloodBank.Find(testBloodBank.GetId());
-    //     Console.WriteLine(result.GetId());
-    //
-    //     //Assert
-    //     Assert.AreEqual(testBloodBank, result);
-    // }
-
+  
     // [TestMethod]
     // public void AddDonor_AddsDonorToBloodBank_DonorList()
     // {
