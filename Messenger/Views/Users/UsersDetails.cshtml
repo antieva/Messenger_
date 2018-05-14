@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'>
+    <link rel="stylesheet" type="text/css" href="~/css/styles.css" />
+    <meta charset="utf-8">
+    <title>Messenger</title>
+  </head>
+  <body>
+    <h1>Messenger App</h1>
+      <div class="container">
+        <nav class="navBar">
+          <a href="/home">Logout</a>
+        </nav>
+        <div class="row">
+          <div class="col-md-6">
+            <form class="userForm" action="/users/search" method="post">
+              <div class='form-group'>
+                <label class = "searchLabel" for='searchUser'>Find user by name</label>
+                <input name= 'searchUser' class ='form-control width' type='text' value = "User Name">
+              </div>
+              <button type='submit' class='btn btn-primary'>Submit</button>
+            </form>
+          </div>
+
+          <div class="col-md-6">
+            <h2>Your connections<h2>
+          </div>
+        </div>
+      </div>
+  </body>
+</html>

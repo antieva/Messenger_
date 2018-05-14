@@ -1,16 +1,17 @@
 using System.Collections.Generic;
+using System;
 using Microsoft.AspNetCore.Mvc;
 using MySql.Data.MySqlClient;
-using MessengerApp.Models;
+// using MessengerApp.Models;
 
 namespace MessengerApp.Controllers
 {
-    public class HomeController : Controller
+  public class HomeController : Controller
+  {
+    [HttpGet("/home")]
+    public ActionResult Index()
     {
-      [HttpGet("/")]
-      public ActionResult Index()
-      {
-          return View();
-      }
+      return View();
     }
+  }
 }
