@@ -116,7 +116,7 @@ namespace MessengerApp.Models
       int userId = 0;
       string userName = "";
       string userPassword = "";
-      List<User> connections = new List<User>;
+      List<User> connections = new List<User>();
 
       while(rdr.Read())
       {
@@ -134,7 +134,7 @@ namespace MessengerApp.Models
       {
           conn.Dispose();
       }
-      return newUser;
+      return connections;
 
     }
 
