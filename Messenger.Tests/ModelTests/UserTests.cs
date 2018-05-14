@@ -59,5 +59,72 @@ namespace MessengerApp.Tests
       Assert.AreEqual(userOne, result);
     }
 
+    [TestMethod]
+    public void GetConnections_CheckByThisUserId_ListOfUsers()
+    {
+      User userOne = new User("Jim", "5421");
+      userOne.Save();
+
+      User userTwo = new User("Eva", "1234");
+      userTwo.Save();
+
+      User userThree = new User("Verna", "7890");
+      userThree.Save();
+
+
+      Message messageOne = new Message("Hi", userOne.GetId(), userTwo.GetId());
+      messageOne.Save();
+      Message messageTwo = new Message("Hi", userOne.GetId(), userThree.GetId());
+      messageTwo.Save();
+
+      Message messageThree = new Message("Hi", userOne.GetId(), userTwo.GetId());
+      messageThree.Save();
+
+      List<User> result = userOne.GetConnections();
+      //Console.WriteLine("Jim's connected to " + result[0].GetName() + " and " + result[1].GetName());
+      Console.WriteLine(result.Count);
+      // foreach (var user in result)
+      // {
+      //     Console.WriteLine(user.GetName());
+      // }
+      List<User> test = new List<User> {userTwo, userThree};
+
+      CollectionAssert.AreEqual(test, result);
+    }
+
+    [TestMethod]
+    public void GetConnections_GetFromAndTo_ListOfUsers()
+    {
+      User userOne = new User("Jim", "5421");
+      userOne.Save();
+
+      User userTwo = new User("Eva", "1234");
+      userTwo.Save();
+
+      User userThree = new User("Verna", "7890");
+      userThree.Save();
+
+
+      Message messageOne = new Message("Hi", userOne.GetId(), userTwo.GetId());
+      messageOne.Save();
+      Message messageTwo = new Message("Hi", userThree.GetId(),userOne.GetId());
+      messageTwo.Save();
+
+      Message messageThree = new Message("Hi", userOne.GetId(), userTwo.GetId());
+      messageThree.Save();
+
+      List<User> result = userOne.GetConnections();
+      //Console.WriteLine("Jim's connected to " + result[0].GetName() + " and " + result[1].GetName());
+      Console.WriteLine(result.Count);
+      foreach (var user in result)
+      {
+          Console.WriteLine(user.GetName());
+      }
+      List<User> test = new List<User> {userTwo, userThree};
+      Console.WriteLine("List: " + result.Count);
+
+      CollectionAssert.AreEqual(test, result);
+    }
+
   }
 }
