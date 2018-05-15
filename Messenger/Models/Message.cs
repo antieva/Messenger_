@@ -77,92 +77,6 @@ namespace MessengerApp.Models
             _seen = maybeSeen;
         }
 
-        // public void SetDate(string newDate)
-        // {
-        //     _dueDate = newDate;
-        // }
-
-        // public void AddFlight(Flight newFlight)
-        // {
-        //     MySqlConnection conn = DB.Connection();
-        //     conn.Open();
-        //     var cmd = conn.CreateCommand() as MySqlCommand;
-        //     cmd.CommandText = @"INSERT INTO cities_flights (flight_id, city_id) VALUES (@FlightId, @CityId);";
-        //
-        //     MySqlParameter flight_id = new MySqlParameter();
-        //     flight_id.ParameterName = "@FlightId";
-        //     flight_id.Value = newFlight.GetId();
-        //     cmd.Parameters.Add(flight_id);
-        //
-        //     MySqlParameter city_id = new MySqlParameter();
-        //     city_id.ParameterName = "@CityId";
-        //     city_id.Value = _id;
-        //     cmd.Parameters.Add(city_id);
-        //
-        //     cmd.ExecuteNonQuery();
-        //     conn.Close();
-        //     if (conn != null)
-        //     {
-        //         conn.Dispose();
-        //     }
-        // }
-        //
-        // public List<Flight> GetFlights()
-        // {
-        //     MySqlConnection conn = DB.Connection();
-        //     conn.Open();
-        //     var cmd = conn.CreateCommand() as MySqlCommand;
-        //     cmd.CommandText = @"SELECT flight_id FROM cities_flights WHERE city_id = @cityId;";
-        //
-        //     MySqlParameter cityIdParameter = new MySqlParameter();
-        //     cityIdParameter.ParameterName = "@cityId";
-        //     cityIdParameter.Value = _id;
-        //     cmd.Parameters.Add(cityIdParameter);
-        //
-        //     var rdr = cmd.ExecuteReader() as MySqlDataReader;
-        //
-        //     List<int> flightIds = new List<int> {};
-        //     while(rdr.Read())
-        //     {
-        //         int flightId = rdr.GetInt32(0);
-        //         flightIds.Add(flightId);
-        //     }
-        //     rdr.Dispose();
-        //
-        //     List<Flight> flights = new List<Flight> {};
-        //     foreach (int flightId in flightIds)
-        //     {
-        //         var flightQuery = conn.CreateCommand() as MySqlCommand;
-        //         flightQuery.CommandText = @"SELECT * FROM flights WHERE id = @FlightId;";
-        //
-        //         MySqlParameter flightIdParameter = new MySqlParameter();
-        //         flightIdParameter.ParameterName = "@FlightId";
-        //         flightIdParameter.Value = flightId;
-        //         flightQuery.Parameters.Add(flightIdParameter);
-        //
-        //         var flightQueryRdr = flightQuery.ExecuteReader() as MySqlDataReader;
-        //         while(flightQueryRdr.Read())
-        //         {
-        //             int thisFlightId = flightQueryRdr.GetInt32(0);
-        //             string flightName = flightQueryRdr.GetString(1);
-        //             int flightDepartureTime = flightQueryRdr.GetInt32(2);
-        //             string flightDeparture = flightQueryRdr.GetString(3);
-        //             string flightArrival = flightQueryRdr.GetString(4);
-        //             string flightStatus = flightQueryRdr.GetString(5);
-        //             Flight foundFlight = new Flight(flightName, flightDepartureTime, flightDeparture, flightArrival, flightStatus, thisFlightId);
-        //             flights.Add(foundFlight);
-        //         }
-        //         flightQueryRdr.Dispose();
-        //     }
-        //     conn.Close();
-        //     if (conn != null)
-        //     {
-        //         conn.Dispose();
-        //     }
-        //     return flights;
-        // }
-
-        // We've removed the GetCategoryId() method entirely.
 
         public void Save()
         {
@@ -192,7 +106,6 @@ namespace MessengerApp.Models
             seen.Value = this._seen;
             cmd.Parameters.Add(seen);
 
-            // Code to declare, set, and add values to a categoryId SQL parameters has also been removed.
 
             cmd.ExecuteNonQuery();
             _id = (int) cmd.LastInsertedId;
@@ -200,6 +113,28 @@ namespace MessengerApp.Models
             if (conn != null)
             {
                 conn.Dispose();
+            }
+        }
+
+        public void Delete()
+        {
+            MySqlConnection conn = DB.Connection();
+            conn.Open();
+
+            var cmd = conn.CreateCommand() as MySqlCommand;
+            cmd.CommandText = @"DELETE FROM message WHERE id = @thisId;";
+
+            MySqlParameter idParameter = new MySqlParameter();
+            idParameter.ParameterName = "@thisId";
+            idParameter.Value = _id;
+            cmd.Parameters.Add(idParameter);
+
+            cmd.ExecuteNonQuery();
+
+            conn.Close();
+            if(conn != null)
+            {
+              conn.Dispose();
             }
         }
 
@@ -277,52 +212,6 @@ namespace MessengerApp.Models
             return newMessage;
         }
 
-        // public void UpdateDescription(string newDescription)
-        // {
-        //     MySqlConnection conn = DB.Connection();
-        //     conn.Open();
-        //     var cmd = conn.CreateCommand() as MySqlCommand;
-        //     cmd.CommandText = @"UPDATE cities SET description = @newDescription WHERE id = @searchId;";
-        //
-        //     MySqlParameter searchId = new MySqlParameter();
-        //     searchId.ParameterName = "@searchId";
-        //     searchId.Value = _id;
-        //     cmd.Parameters.Add(searchId);
-        //
-        //     MySqlParameter description = new MySqlParameter();
-        //     description.ParameterName = "@newDescription";
-        //     description.Value = newDescription;
-        //     cmd.Parameters.Add(description);
-        //
-        //     cmd.ExecuteNonQuery();
-        //     _description = newDescription;
-        //     conn.Close();
-        //     if (conn != null)
-        //     {
-        //         conn.Dispose();
-        //     }
-        //
-        // }
-      //
-      //   public static void Delete(int id)
-      // {
-      //   MySqlConnection conn = DB.Connection();
-      //   conn.Open();
-      //   var cmd = conn.CreateCommand() as MySqlCommand;
-      //   cmd.CommandText = @"DELETE FROM cities_flights WHERE flight_id = @CityId;";
-      //
-      //   MySqlParameter cityIdParameter = new MySqlParameter();
-      //   cityIdParameter.ParameterName = "@CityId";
-      //   cityIdParameter.Value = id;
-      //   cmd.Parameters.Add(cityIdParameter);
-      //
-      //   cmd.ExecuteNonQuery();
-      //   if (conn != null)
-      //   {
-      //     conn.Close();
-      //   }
-      // }
-
         public static void DeleteAll()
         {
             MySqlConnection conn = DB.Connection();
@@ -336,31 +225,5 @@ namespace MessengerApp.Models
                 conn.Dispose();
             }
         }
-      //   public void Edit(string newDescription)
-      // {
-      //     MySqlConnection conn = DB.Connection();
-      //     conn.Open();
-      //     var cmd = conn.CreateCommand() as MySqlCommand;
-      //     cmd.CommandText = @"UPDATE cities SET description = @newDescription WHERE id = @searchId;";
-      //
-      //     MySqlParameter searchId = new MySqlParameter();
-      //     searchId.ParameterName = "@searchId";
-      //     searchId.Value = _id;
-      //     cmd.Parameters.Add(searchId);
-      //
-      //     MySqlParameter description = new MySqlParameter();
-      //     description.ParameterName = "@newDescription";
-      //     description.Value = newDescription;
-      //     cmd.Parameters.Add(description);
-      //
-      //     cmd.ExecuteNonQuery();
-      //     _description = newDescription;
-      //
-      //     conn.Close();
-      //     if (conn != null)
-      //     {
-      //         conn.Dispose();
-      //     }
-      // }
     }
 }

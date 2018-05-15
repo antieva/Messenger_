@@ -42,10 +42,12 @@ namespace MessengerApp.Models
       _name = newName;
     }
 
-    // public void SetList(List<City> cities)
-    // {
-    //   _cities = cities;
-    // }
+    public void SetPassword(string newPassword)
+    {
+      _password = newPassword;
+    }
+
+
 
     public override bool Equals(System.Object otherUser)
     {
@@ -175,12 +177,6 @@ namespace MessengerApp.Models
 
 
 
-
-
-
-
-
-
     public static User DoesExist(string loginName, string loginPassword)
     {
         MySqlConnection conn = DB.Connection();
@@ -226,38 +222,6 @@ namespace MessengerApp.Models
       }
 
 
-    // public List<City> GetCities()
-    //       {
-    //           MySqlConnection conn = DB.Connection();
-    //           conn.Open();
-    //           MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
-    //           cmd.CommandText = @"SELECT cities.* FROM flights
-    //               JOIN cities_flights ON (flights.id = cities_flights.flight_id)
-    //               JOIN cities ON (cities_flights.city_id = cities.id)
-    //               WHERE flights.id = @FlightId;";
-    //
-    //           MySqlParameter flightIdParameter = new MySqlParameter();
-    //           flightIdParameter.ParameterName = "@FlightId";
-    //           flightIdParameter.Value = _id;
-    //           cmd.Parameters.Add(flightIdParameter);
-    //
-    //           MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
-    //           List<City> cities = new List<City>{};
-    //
-    //           while(rdr.Read())
-    //           {
-    //             int cityId = rdr.GetInt32(0);
-    //             string cityDescription = rdr.GetString(1);
-    //             City newCity = new City(cityDescription, cityId);
-    //             cities.Add(newCity);
-    //           }
-    //           conn.Close();
-    //           if (conn != null)
-    //           {
-    //               conn.Dispose();
-    //           }
-    //           return cities;
-    //       }
 
     public List<Message> GetNotSeen (int id)
         {
@@ -323,7 +287,6 @@ namespace MessengerApp.Models
       password.ParameterName = "@password";
       password.Value = this._password;
       cmd.Parameters.Add(password);
-      // Code to declare, set, and add values to a categoryId SQL parameters has also been removed.
 
       cmd.ExecuteNonQuery();
       _id = (int) cmd.LastInsertedId;
@@ -333,7 +296,69 @@ namespace MessengerApp.Models
         conn.Dispose();
       }
     }
-    // Will get all users
+
+    public void Delete()
+    {
+        MySqlConnection conn = DB.Connection();
+        conn.Open();
+
+        var cmd = conn.CreateCommand() as MySqlCommand;
+        cmd.CommandText = @"DELETE FROM users WHERE id = @thisId;";
+
+        MySqlParameter idParameter = new MySqlParameter();
+        idParameter.ParameterName = "@thisId";
+        idParameter.Value = _id;
+        cmd.Parameters.Add(idParameter);
+
+        cmd.ExecuteNonQuery();
+
+        conn.Close();
+        if(conn != null)
+        {
+          conn.Dispose();
+        }
+    }
+
+      public bool Edit(string newName, string newPassword)
+      {
+          // check if newName is unique first
+          if (User.IsUnique(newName))
+          {
+              MySqlConnection conn = DB.Connection();
+              conn.Open();
+              var cmd = conn.CreateCommand() as MySqlCommand;
+              cmd.CommandText = @"UPDATE users SET name = @newName AND password = @newPassword WHERE id = @searchId;";
+
+              MySqlParameter searchId = new MySqlParameter();
+              searchId.ParameterName = "@searchId";
+              searchId.Value = _id;
+              cmd.Parameters.Add(searchId);
+
+              MySqlParameter name = new MySqlParameter();
+              name.ParameterName = "@newName";
+              name.Value = newName;
+              cmd.Parameters.Add(name);
+
+              MySqlParameter password = new MySqlParameter();
+              password.ParameterName = "@newPassword";
+              password.Value = newName;
+              cmd.Parameters.Add(password);
+
+              cmd.ExecuteNonQuery();
+              this.SetName(newName);
+              this.SetPassword(newPassword);
+
+              conn.Close();
+              if (conn != null)
+              {
+                  conn.Dispose();
+              }
+              return true;
+          } else {
+              return false;
+          }
+      }
+
     public static List<User> GetAll()
     {
       List<User> allUsers = new List<User> {};
@@ -376,7 +401,6 @@ namespace MessengerApp.Models
       int userId = 0;
       string userName = "";
       string userPassword = "";
-      // We remove the line setting a itemCategoryId value here.
 
       while(rdr.Read())
       {
@@ -386,9 +410,7 @@ namespace MessengerApp.Models
 
       }
 
-      // Constructor below no longer includes a itemCategoryId parameter:
       User newUser = new User(userName, userPassword, userId);
-    //  newCategory.SetDate(ItemDueDate);
       conn.Close();
       if (conn != null)
       {
@@ -398,24 +420,37 @@ namespace MessengerApp.Models
       return newUser;
     }
 
-    // public static void Delete(int id)
-    // {
-    //   MySqlConnection conn = DB.Connection();
-    //   conn.Open();
-    //
-    //   MySqlCommand cmd = new MySqlCommand("DELETE FROM users WHERE id = @UserId; DELETE FROM cities_flights WHERE flight_id = @FlightId;", conn);
-    //   MySqlParameter userIdParameter = new MySqlParameter();
-    //   userIdParameter.ParameterName = "@UserId";
-    //   userIdParameter.Value = id;
-    //
-    //   cmd.Parameters.Add(userIdParameter);
-    //   cmd.ExecuteNonQuery();
-    //
-    //   if (conn != null)
-    //   {
-    //     conn.Close();
-    //   }
-    // }
+    public static List<User> Search(string userName)
+    {
+      List<User> allUsersFound = new List<User> {};
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+
+      var cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"SELECT * FROM users WHERE name LIKE CONCAT('%',@userName,'%');";
+
+      MySqlParameter userNameParameter = new MySqlParameter();
+      userNameParameter.ParameterName = "@userName";
+      userNameParameter.Value = userName;
+      cmd.Parameters.Add(userNameParameter);
+
+      var rdr = cmd.ExecuteReader() as MySqlDataReader;
+      while(rdr.Read())
+      {
+        int id = rdr.GetInt32(0);
+        string name = rdr.GetString(1);
+        string password = rdr.GetString(2);
+
+        User newUser = new User(name, password, id);
+        allUsersFound.Add(newUser);
+      }
+      conn.Close();
+      if(conn != null)
+      {
+        conn.Dispose();
+      }
+      return allUsersFound;
+    }
 
     public static void DeleteAll()
     {

@@ -81,12 +81,7 @@ namespace MessengerApp.Tests
       messageThree.Save();
 
       List<User> result = userOne.GetConnectionsFrom();
-      //Console.WriteLine("Jim's connected to " + result[0].GetName() + " and " + result[1].GetName());
-      //Console.WriteLine(result.Count);
-      // foreach (var user in result)
-      // {
-      //     Console.WriteLine(user.GetName());
-      // }
+
       List<User> test = new List<User> {userTwo, userThree};
 
       CollectionAssert.AreEqual(test, result);
@@ -116,7 +111,6 @@ namespace MessengerApp.Tests
       List<User> result = userOne.GetConnectionsFrom();
 
       result = userOne.GetConnectionsTo(result);
-      //Console.WriteLine("Jim's connected to " + result[0].GetName() + " and " + result[1].GetName());
 
       foreach (var user in result)
       {
@@ -152,7 +146,7 @@ namespace MessengerApp.Tests
       List<User> result = userOne.GetConnectionsFrom();
 
       result = userOne.GetConnectionsTo(result);
-      //Console.WriteLine("Jim's connected to " + result[0].GetName() + " and " + result[1].GetName());
+
 
       foreach (var user in result)
       {
@@ -181,7 +175,6 @@ namespace MessengerApp.Tests
 
       Message thirdMessage = new Message("Hey stranger!", userTwo.GetId(), userOne.GetId(), 0, true);
       thirdMessage.Save();
-      //thirdMessage.SetSeen(true);
 
       List<Message> allMessagesNotSeenByJim = userOne.GetNotSeen(userTwo.GetId());
       Console.WriteLine("Jim got " + allMessagesNotSeenByJim.Count + " new messages");
@@ -191,6 +184,72 @@ namespace MessengerApp.Tests
       //Assert
       CollectionAssert.AreEqual(test, allMessagesNotSeenByJim);
 
+    }
+
+    [TestMethod]
+    public void Search_GettingUsersWhichMatchSearch_UsersList()
+    {
+      //Arrange, Act
+      User userOne = new User("Jim", "1234");
+      userOne.Save();
+      User userTwo = new User("Eva", "4321");
+      userTwo.Save();
+      User userThree = new User("NewJim", "1234");
+      userThree.Save();
+
+      List<User> result = User.Search("jim");
+      foreach (var user in result)
+      {
+        Console.WriteLine(user.GetName());
+      }
+      List<User> test = new List<User>{userOne, userThree};
+      //Assert
+      CollectionAssert.AreEqual(test, result);
+
+    }
+
+    [TestMethod]
+    public void Edit_UpdateUserNameAndPassword_False()
+    {
+      User userOne = new User("Jim", "1234");
+      userOne.Save();
+      User userTwo = new User("Eva", "4321");
+      userTwo.Save();
+
+      bool result = userOne.Edit("Eva", "35435345");
+
+      Assert.AreEqual(false, result);
+    }
+
+    [TestMethod]
+    public void Edit_NotEditIfFalse_NameNotChanged()
+    {
+      User userOne = new User("Jim", "1234");
+      userOne.Save();
+      User userTwo = new User("Eva", "4321");
+      userTwo.Save();
+
+      userOne.Edit("Eva", "35435345");
+      string result = userOne.GetName();
+      Console.WriteLine(userOne.GetName());
+      string test = "Jim";
+
+      Assert.AreEqual(test, result);
+    }
+
+    [TestMethod]
+    public void Edit_UpdateUserNameAndPassword_True()
+    {
+      User userOne = new User("Jim", "1234");
+      userOne.Save();
+      User userTwo = new User("Eva", "4321");
+      userTwo.Save();
+
+      bool result = userOne.Edit("John", "35435345");
+      Console.WriteLine(userOne.GetName());
+      Console.WriteLine(userOne.GetPassword());
+
+      Assert.AreEqual(true, result);
     }
   }
 }
