@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System;
 using Microsoft.AspNetCore.Mvc;
 using MySql.Data.MySqlClient;
-// using MessengerApp.Models;
+using MessengerApp.Models;
 
 namespace MessengerApp.Controllers
 {
@@ -13,12 +13,5 @@ namespace MessengerApp.Controllers
     {
       return View();
     }
-
-    // [HttpPost("/users/search")]
-    // public ActionResult Search()
-    // {
-    //   List<User> searchedUsers = User.Find(Request.Form["searchUsers"]);
-    //   return View("UserList", searchedUsers);
-    // }
   }
 }
