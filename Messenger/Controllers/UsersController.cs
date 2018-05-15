@@ -19,7 +19,13 @@ namespace MessengerApp.Controllers
     {
       User newUser = new User(Request.Form["userName"],Request.Form["userPassword"]);
       newUser.Save();
-      return View("NewAccount");
+      return View("NewUser");
+    }
+
+    [HttpPost("/users/update")]
+    public ActionResult UpdateAccount()
+    {
+      return View("UpdateAccount");
     }
 
     // [HttpPost("/users/search")]

@@ -8,13 +8,14 @@
   </head>
   <body>
       <div class="container">
-       <h1>Messenger App</h1>
+       <h1>CHAT</h1>
+       <h3>Messenger App</h3>
         <div class="row">
           <div class="col-md-6">
-            <form action="/users/details" method="post">
+            <form class="userForm" action="/users/details" method="post">
               <div class="wrapper">
               <form class="form-signin">
-                <h2 class="form-signin-heading">Please login</h2>
+                <h2 class="form-signin-heading"> Please login</h2>
                 <input type="text" class="form-control" name="username" placeholder="Username" required="" autofocus=""/>
                 <br>
                 <input type="password" class="form-control" name="password" placeholder="Password" required=""/>
@@ -33,8 +34,10 @@
                 <input type="text" class="form-control" name="userName" placeholder="Username" required="" autofocus=""/>
                 <br>
                 <input type="password" class="form-control" name="userPassword" placeholder="Password" required=""/>
-                <br>
-                <button class="btn btn-primary" type="submit">Create</button>
+                <label class="checkbox">
+                  <input type="checkbox" value="remember-me" id="rememberMe" name="rememberMe"> Remember me
+                </label>
+                <button  class="btn btn-primary" type="submit">Create</button>
               </form>
             </div>
           </div>
