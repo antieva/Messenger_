@@ -14,6 +14,7 @@ namespace MessengerApp.Controllers
       return View();
     }
 
+
     [HttpPost("/users/new")]
     public ActionResult CreateAccount()
     {
@@ -34,5 +35,6 @@ namespace MessengerApp.Controllers
     //   List<User> searchedUsers = User.Find(Request.Form["searchUsers"]);
     //   return View("UsersList", searchedUsers);
     // }
+
   }
 }

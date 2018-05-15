@@ -59,5 +59,197 @@ namespace MessengerApp.Tests
       Assert.AreEqual(userOne, result);
     }
 
+    [TestMethod]
+    public void GetConnectionsFrom_CheckByThisUserId_ListOfUsers()
+    {
+      User userOne = new User("Jim", "5421");
+      userOne.Save();
+
+      User userTwo = new User("Eva", "1234");
+      userTwo.Save();
+
+      User userThree = new User("Verna", "7890");
+      userThree.Save();
+
+
+      Message messageOne = new Message("Hi", userOne.GetId(), userTwo.GetId());
+      messageOne.Save();
+      Message messageTwo = new Message("Hi", userOne.GetId(), userThree.GetId());
+      messageTwo.Save();
+
+      Message messageThree = new Message("Hi", userOne.GetId(), userTwo.GetId());
+      messageThree.Save();
+
+      List<User> result = userOne.GetConnectionsFrom();
+
+      List<User> test = new List<User> {userTwo, userThree};
+
+      CollectionAssert.AreEqual(test, result);
+    }
+
+    [TestMethod]
+    public void GetConnectionsTo_GetTo_ListOfUsers()
+    {
+      User userOne = new User("Jim", "5421");
+      userOne.Save();
+
+      User userTwo = new User("Eva", "1234");
+      userTwo.Save();
+
+      User userThree = new User("Verna", "7890");
+      userThree.Save();
+
+
+      Message messageOne = new Message("Hi", userTwo.GetId(), userOne.GetId());
+      messageOne.Save();
+      Message messageTwo = new Message("Hi", userThree.GetId(),userOne.GetId());
+      messageTwo.Save();
+
+      Message messageThree = new Message("Hi", userTwo.GetId(), userOne.GetId());
+      messageThree.Save();
+
+      List<User> result = userOne.GetConnectionsFrom();
+
+      result = userOne.GetConnectionsTo(result);
+
+      foreach (var user in result)
+      {
+          Console.WriteLine(user.GetName());
+      }
+      List<User> test = new List<User> {userTwo, userThree};
+      Console.WriteLine("List: " + result.Count);
+
+      CollectionAssert.AreEqual(test, result);
+    }
+
+    [TestMethod]
+    public void GetConnectionsToandFrom_GetToAndFrom_ListOfUsers()
+    {
+      User userOne = new User("Jim", "5421");
+      userOne.Save();
+
+      User userTwo = new User("Eva", "1234");
+      userTwo.Save();
+
+      User userThree = new User("Verna", "7890");
+      userThree.Save();
+
+
+      Message messageOne = new Message("Hi", userTwo.GetId(), userOne.GetId());
+      messageOne.Save();
+      Message messageTwo = new Message("Hi", userOne.GetId(),userThree.GetId());
+      messageTwo.Save();
+
+      Message messageThree = new Message("Hi", userTwo.GetId(), userOne.GetId());
+      messageThree.Save();
+
+      List<User> result = userOne.GetConnectionsFrom();
+
+      result = userOne.GetConnectionsTo(result);
+
+
+      foreach (var user in result)
+      {
+          Console.WriteLine(user.GetName());
+      }
+      List<User> test = new List<User> {userThree, userTwo};
+      Console.WriteLine("List: " + result.Count);
+
+      CollectionAssert.AreEqual(test, result);
+    }
+
+    [TestMethod]
+    public void GetNotSeen_GettingMessagesNotSeen_MessageList()
+    {
+      //Arrange, Act
+      User userOne = new User("Jim", "1234");
+      userOne.Save();
+      User userTwo = new User("Eva", "4321");
+      userTwo.Save();
+
+      Message firstMessage = new Message("Hey Eva!", userOne.GetId(), userTwo.GetId());
+      firstMessage.Save();
+      Message secondMessage = new Message("Hey Jim!", userTwo.GetId(), userOne.GetId());
+      secondMessage.Save();
+
+
+      Message thirdMessage = new Message("Hey stranger!", userTwo.GetId(), userOne.GetId(), 0, true);
+      thirdMessage.Save();
+
+      List<Message> allMessagesNotSeenByJim = userOne.GetNotSeen(userTwo.GetId());
+      Console.WriteLine("Jim got " + allMessagesNotSeenByJim.Count + " new messages");
+      List<Message> test = new List<Message>{secondMessage};
+      Console.WriteLine(test.Count);
+
+      //Assert
+      CollectionAssert.AreEqual(test, allMessagesNotSeenByJim);
+
+    }
+
+    [TestMethod]
+    public void Search_GettingUsersWhichMatchSearch_UsersList()
+    {
+      //Arrange, Act
+      User userOne = new User("Jim", "1234");
+      userOne.Save();
+      User userTwo = new User("Eva", "4321");
+      userTwo.Save();
+      User userThree = new User("NewJim", "1234");
+      userThree.Save();
+
+      List<User> result = User.Search("jim");
+      foreach (var user in result)
+      {
+        Console.WriteLine(user.GetName());
+      }
+      List<User> test = new List<User>{userOne, userThree};
+      //Assert
+      CollectionAssert.AreEqual(test, result);
+
+    }
+
+    [TestMethod]
+    public void Edit_UpdateUserNameAndPassword_False()
+    {
+      User userOne = new User("Jim", "1234");
+      userOne.Save();
+      User userTwo = new User("Eva", "4321");
+      userTwo.Save();
+
+      bool result = userOne.Edit("Eva", "35435345");
+
+      Assert.AreEqual(false, result);
+    }
+
+    [TestMethod]
+    public void Edit_NotEditIfFalse_NameNotChanged()
+    {
+      User userOne = new User("Jim", "1234");
+      userOne.Save();
+      User userTwo = new User("Eva", "4321");
+      userTwo.Save();
+
+      userOne.Edit("Eva", "35435345");
+      string result = userOne.GetName();
+      Console.WriteLine(userOne.GetName());
+      string test = "Jim";
+
+      Assert.AreEqual(test, result);
+    }
+
+    [TestMethod]
+    public void Edit_UpdateUserNameAndPassword_True()
+    {
+      User userOne = new User("Jim", "1234");
+      userOne.Save();
+      User userTwo = new User("Eva", "4321");
+      userTwo.Save();
+
+      bool result = userOne.Edit("John", "35435345");
+      Console.WriteLine(userOne.GetName());
+      Console.WriteLine(userOne.GetPassword());
+
+      Assert.AreEqual(true, result);
+    }
   }
 }
