@@ -98,7 +98,7 @@ namespace MessengerApp.Models
     }
 
 
-    public List<User> GetConnections()
+    public List<User> GetConnectionsFrom()
     {
       MySqlConnection conn = DB.Connection();
       conn.Open();
@@ -129,42 +129,52 @@ namespace MessengerApp.Models
             connections.Add(newUser);
           }
       }
+      return connections;
 
+    }
 
-
-      MySqlConnection conn2 = DB.Connection();
-      conn2.Open();
-      var cmd2 = conn2.CreateCommand() as MySqlCommand; // We need to start here, this SQL statment doesn't work.
-      cmd2.CommandText = @"SELECT * FROM users
+    public List<User> GetConnectionsTo(List<User> connectionsFrom)
+    {
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+      var cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"SELECT * FROM users
       JOIN message WHERE message.fromUserId = users.id
       AND message.toUserId = @toUserId;";
 
       MySqlParameter checkingToUserId = new MySqlParameter();
       checkingToUserId.ParameterName = "@toUserId";
       checkingToUserId.Value = _id;
-      cmd2.Parameters.Add(checkingToUserId);
-      var rdr2 = cmd2.ExecuteReader() as MySqlDataReader;
+      cmd.Parameters.Add(checkingToUserId);
+
+      var rdr = cmd.ExecuteReader() as MySqlDataReader;
+      int userId = 0;
+      string userName = "";
+      string userPassword = "";
 
       while(rdr.Read())
       {
-        userId = rdr2.GetInt32(0);
-        userName = rdr2.GetString(1);
-        userPassword = rdr2.GetString(2);
+        userId = rdr.GetInt32(0);
+        userName = rdr.GetString(1);
+        userPassword = rdr.GetString(2);
         User newUser = new User(userName, userPassword, userId);
-        if (!connections.Contains(newUser))
+        if (!connectionsFrom.Contains(newUser))
           {
-            connections.Add(newUser);
+            connectionsFrom.Add(newUser);
           }
       }
 
-      conn2.Close();
-      if (conn2 != null)
+      conn.Close();
+      if (conn != null)
       {
-          conn2.Dispose();
+          conn.Dispose();
       }
-      return connections;
+      return connectionsFrom;
 
     }
+
+
+
 
 
 
@@ -249,30 +259,48 @@ namespace MessengerApp.Models
     //           return cities;
     //       }
 
-    // public void AddCity(City newCity)
-    //     {
-    //         MySqlConnection conn = DB.Connection();
-    //         conn.Open();
-    //         var cmd = conn.CreateCommand() as MySqlCommand;
-    //         cmd.CommandText = @"INSERT INTO cities_flights (flight_id, city_id) VALUES (@FlightId, @CityId);";
-    //
-    //         MySqlParameter flight_id = new MySqlParameter();
-    //         flight_id.ParameterName = "@FlightId";
-    //         flight_id.Value = _id;
-    //         cmd.Parameters.Add(flight_id);
-    //
-    //         MySqlParameter city_id = new MySqlParameter();
-    //         city_id.ParameterName = "@CityId";
-    //         city_id.Value = newCity.GetId();
-    //         cmd.Parameters.Add(city_id);
-    //
-    //         cmd.ExecuteNonQuery();
-    //         conn.Close();
-    //         if (conn != null)
-    //         {
-    //             conn.Dispose();
-    //         }
-    //     }
+    public List<Message> GetNotSeen (int id)
+        {
+            MySqlConnection conn = DB.Connection();
+            conn.Open();
+            var cmd = conn.CreateCommand() as MySqlCommand;
+            cmd.CommandText = @"SELECT * FROM message WHERE fromUserId = (@fromUserId) AND toUserId = (@toUserId) AND seen = (@seen);";
+
+            MySqlParameter fromUserId = new MySqlParameter();
+            fromUserId.ParameterName = "@fromUserId";
+            fromUserId.Value = id;
+            cmd.Parameters.Add(fromUserId);
+
+            MySqlParameter toUserId = new MySqlParameter();
+            toUserId.ParameterName = "@toUserId";
+            toUserId.Value = _id;
+            cmd.Parameters.Add(toUserId);
+
+            MySqlParameter seen = new MySqlParameter();
+            seen.ParameterName = "@seen";
+            seen.Value = false;
+            cmd.Parameters.Add(seen);
+
+            List<Message> allMessages = new List<Message>{};
+            var rdr = cmd.ExecuteReader() as MySqlDataReader;
+            while(rdr.Read())
+            {
+              int messageId = rdr.GetInt32(0);
+              string messageText = rdr.GetString(1);
+              int fromId = rdr.GetInt32(2);
+              int toId = rdr.GetInt32(3);
+              bool messageSeen = rdr.GetBoolean(4);
+              Message newMessage = new Message(messageText, fromId, toId, messageId, messageSeen);
+              allMessages.Add(newMessage);
+            }
+            conn.Close();
+            if (conn != null)
+            {
+                conn.Dispose();
+            }
+            return allMessages;
+        }
+
 
 
 
