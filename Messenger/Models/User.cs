@@ -103,20 +103,20 @@ namespace MessengerApp.Models
       MySqlConnection conn = DB.Connection();
       conn.Open();
       var cmd = conn.CreateCommand() as MySqlCommand;
-      cmd.CommandText = @"SELECT users.* FROM message
-      JOIN message ON (users.id = message.toUserId)
-      WHERE message.fromUserId = @fromUserId;";
+      cmd.CommandText = @"SELECT * FROM users
+      JOIN message WHERE message.toUserId = users.id
+      AND message.fromUserId = @fromUserId;";
 
-      MySqlParameter checkingUserId = new MySqlParameter();
-      checkingUserId.ParameterName = "@fromUserId";
-      checkingUserId.Value = _id;
-      cmd.Parameters.Add(checkingUserId);
+      MySqlParameter checkingFromUserId = new MySqlParameter();
+      checkingFromUserId.ParameterName = "@fromUserId";
+      checkingFromUserId.Value = _id;
+      cmd.Parameters.Add(checkingFromUserId);
 
       var rdr = cmd.ExecuteReader() as MySqlDataReader;
       int userId = 0;
       string userName = "";
       string userPassword = "";
-      List<User> connections = new List<User>;
+      List<User> connections = new List<User>{};
 
       while(rdr.Read())
       {
@@ -124,17 +124,45 @@ namespace MessengerApp.Models
         userName = rdr.GetString(1);
         userPassword = rdr.GetString(2);
         User newUser = new User(userName, userPassword, userId);
-        connections.Add(newUser);
+        if (!connections.Contains(newUser))
+          {
+            connections.Add(newUser);
+          }
       }
 
 
 
-      conn.Close();
-      if (conn != null)
+      MySqlConnection conn2 = DB.Connection();
+      conn2.Open();
+      var cmd2 = conn2.CreateCommand() as MySqlCommand; // We need to start here, this SQL statment doesn't work.
+      cmd2.CommandText = @"SELECT * FROM users
+      JOIN message WHERE message.fromUserId = users.id
+      AND message.toUserId = @toUserId;";
+
+      MySqlParameter checkingToUserId = new MySqlParameter();
+      checkingToUserId.ParameterName = "@toUserId";
+      checkingToUserId.Value = _id;
+      cmd2.Parameters.Add(checkingToUserId);
+      var rdr2 = cmd2.ExecuteReader() as MySqlDataReader;
+
+      while(rdr.Read())
       {
-          conn.Dispose();
+        userId = rdr2.GetInt32(0);
+        userName = rdr2.GetString(1);
+        userPassword = rdr2.GetString(2);
+        User newUser = new User(userName, userPassword, userId);
+        if (!connections.Contains(newUser))
+          {
+            connections.Add(newUser);
+          }
       }
-      return newUser;
+
+      conn2.Close();
+      if (conn2 != null)
+      {
+          conn2.Dispose();
+      }
+      return connections;
 
     }
 
