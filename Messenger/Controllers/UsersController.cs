@@ -13,5 +13,28 @@ namespace MessengerApp.Controllers
     {
       return View();
     }
+
+
+    [HttpPost("/users/new")]
+    public ActionResult CreateAccount()
+    {
+      User newUser = new User(Request.Form["userName"],Request.Form["userPassword"]);
+      newUser.Save();
+      return View("NewUser");
+    }
+
+    [HttpPost("/users/update")]
+    public ActionResult UpdateAccount()
+    {
+      return View("UpdateAccount");
+    }
+
+    // [HttpPost("/users/search")]
+    // public ActionResult Search()
+    // {
+    //   List<User> searchedUsers = User.Find(Request.Form["searchUsers"]);
+    //   return View("UsersList", searchedUsers);
+    // }
+
   }
 }
