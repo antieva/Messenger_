@@ -12,7 +12,7 @@
      <h3>Messenger App</h3>
         <nav class="navBar">
           <a href="/home">Logout</a> |
-          <a href="/users/update">Update Profile</a>
+          <a href="/users/@Model['user'].GetId()/update">Update Profile</a>
         </nav>
       <h4>Welcome,</h4>
         <div class="row">
@@ -26,7 +26,12 @@
             </form>
           </div>
           <div class="col-md-6">
-            <h2>Your connections<h2>
+            <h2>Your connections</h2>
+              @foreach (var user in @Model["connections"])
+              {
+                  <p><a href="@Model['user'].GetId()/dialog/@user.GetId()">@user.GetName()</p>
+              }
+
           </div>
         </div>
       </div>

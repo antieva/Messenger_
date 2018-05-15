@@ -71,7 +71,7 @@ namespace MessengerApp.Models
     }
 
 
-    public static bool IsUnique(string loginName)
+    public static bool Unique(string loginName)
     {
         MySqlConnection conn = DB.Connection();
         conn.Open();
@@ -322,7 +322,7 @@ namespace MessengerApp.Models
       public bool Edit(string newName, string newPassword)
       {
           // check if newName is unique first
-          if (User.IsUnique(newName))
+          if (User.Unique(newName))
           {
               MySqlConnection conn = DB.Connection();
               conn.Open();
