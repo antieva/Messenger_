@@ -8,8 +8,14 @@ namespace MessengerApp.Controllers
 {
   public class UsersController : Controller
   {
-    [HttpGet("/users/details")]
-    public ActionResult UsersDetails()
+    [HttpGet("/{id}/details")]
+    public ActionResult UsersDetails(int id)
+    {
+      return View();
+    }
+
+    [HttpGet("/users/success")]
+    public ActionResult NewAccount()
     {
       return View();
     }
