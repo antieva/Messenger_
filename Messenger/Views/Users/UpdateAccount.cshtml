@@ -12,7 +12,7 @@
      <h3>Messenger App</h3>
       <div class="row">
         <div class="col-md-6">
-          <form class="userForm" action="/users/details" method="post">
+          <form class="userForm" action="/users/@Model.GetId()/update" method="post">
             <div class="wrapper">
             <form class="form-signin">
               <h2 class="form-signin-heading">Update Name and Password</h2>
@@ -22,7 +22,7 @@
               <label class="checkbox">
                 <input type="checkbox" value="remember-me" id="rememberMe" name="rememberMe"> Remember me
               </label>
-              <button class="btn btn-primary" type="submit">Update</button>
+            <button class="btn btn-primary" type="submit">Update</button>
             </form>
           </div>
         </div>

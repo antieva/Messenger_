@@ -16,3 +16,38 @@
     <p><span class="red">No users match your search.</span></p>
   } else
   {
+
+
+
+
+
+  Console.Write(" This is the start ");
+  User thisUser = MessengerApp.Models.User.Find(id);
+  bool success = thisUser.Edit(Request.Form["name"], Request.Form["password"]);
+  Console.Write(" Hello ");
+  Console.WriteLine(" This new user is: " + thisUser);
+  if (success) {
+    return RedirectToAction("UpdateAccount");
+  } else {
+    return RedirectToAction("UpdateAccount", new {id = id});
+  }
+}
+
+// [HttpGet("/users/details")]
+// public ActionResult UsersDetails()
+// {
+//   return View();
+// }
+
+
+
+
+
+ <h2>Welcome @Model["user"].GetName()</h2>
+
+
+ // [HttpGet("/success")]
+ // public ActionResult Success()
+ // {
+ //   return View("Success");
+ // }
