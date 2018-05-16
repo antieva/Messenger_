@@ -11,9 +11,24 @@
       <h1>Message Box</h1>
       <nav class="navBar">
         <a href="/home">Log out</a>
-        <a href="/"
+        <a href="/">
       </nav>
-      <iframe src=""></iframe>
-      </div>
-    </body>
-  </html>
+
+      <iframe
+      frame border="0"
+      src="/messenger/box"
+      height="800"
+      width="800"></iframe>
+      <form action="/index/new" method="post">
+        <div class="form-group">
+          <label class= "stylist-name" for="stylist-name">Type Message</label>
+             <input type="text" name="stylist-name" id="stylist-name">
+        </div>
+        <br>
+        <div class="form-group">
+          <button class="btn" type="submit">Submit</button>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>
