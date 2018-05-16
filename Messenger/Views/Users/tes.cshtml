@@ -1,0 +1,18 @@
+  <a href="/users/@Model['user'].GetId()/update">Update Profile</a>
+
+
+
+
+  @foreach (var user in @Model["connections"])
+  {
+      <p><a href="@Model['user'].GetId()/dialog/@user.GetId()">@user.GetName()</p>
+  }
+
+
+
+
+  @if (@Model.Count == 0)
+  {
+    <p><span class="red">No users match your search.</span></p>
+  } else
+  {

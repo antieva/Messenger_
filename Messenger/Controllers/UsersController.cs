@@ -42,11 +42,13 @@ namespace MessengerApp.Controllers
             string errorMessage = "Sorry, but your login name or password is not correct.";
             return View("ErrorMessage", errorMessage);
         }
+        List<User> searchedUsers = MessengerApp.Models.User.Search(Request.Form["searchUser"]);
         List<User> thisUserConnections = newUser.GetConnectionsFrom();
         thisUserConnections = newUser.GetConnectionsTo(thisUserConnections);
         Dictionary<string, object> model = new Dictionary<string, object>();
         model.Add("user", newUser);
         model.Add("connections", thisUserConnections);
+        model.Add("search", searchedUsers);
 
         return View(model);
     }
@@ -57,12 +59,19 @@ namespace MessengerApp.Controllers
       return View("UpdateAccount");
     }
 
-    // [HttpPost("/users/search")]
-    // public ActionResult Search()
-    // {
-    //   List<User> searchedUsers = User.Find(Request.Form["searchUsers"]);
-    //   return View("UsersList", searchedUsers);
-    // }
+    [HttpPost("/users/search/{id}")]
+    public ActionResult SearchUser(int id)
+    {
+      User newUser = MessengerApp.Models.User.Find(id);
+      List<User> thisUserConnections = newUser.GetConnectionsFrom();
+      thisUserConnections = newUser.GetConnectionsTo(thisUserConnections);
+      List<User> searchedUsers = MessengerApp.Models.User.Search(Request.Form["searchUser"]);
+      Dictionary<string, object> model = new Dictionary<string, object>();
+      model.Add("user", newUser);
+      model.Add("connections", thisUserConnections);
+      model.Add("search", searchedUsers);
+      return View("UsersDetails", model);
+    }
 
   }
 }
