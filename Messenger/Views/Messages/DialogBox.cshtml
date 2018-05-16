@@ -2,7 +2,8 @@
 <html>
   <head>
   <meta charset="utf-8">
-  <!--<meta http-equiv = "refresh" content="2">-->
+  <meta http-equiv = "refresh" content="5">
+  <script   src="https://code.jquery.com/jquery-3.3.1.min.js"   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="   crossorigin="anonymous"></script>
   <style>
   body {
       margin: 0 auto;
@@ -52,24 +53,54 @@
       float: left;
       color: #999;
   }
+  .leftBox {
+      float: left;
+      color: #999;
+      width: 50%;
+  }
+
+  .rightBox {
+      float: right;
+      color: #aaa;
+      width: 50%;
+  }
     </style>
   <title></title>
-  <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlNf0u91ta32o/NMZxltwRo8QtmkMRdAu8" crossorigin="anonymous"></script>
+
   </head>
     <body>
-      <div class="container">
-        <button class="btn btn-danger right" type="submit">x</button>
-      <br>
-      <br>
-      <span class="right">seen</span>
-      </div>
-      <div class="container darker">
-        <p>User2</p>
-        <span class="left">11:01</span>
-      </div>
+      @foreach (var message in @Model["messages"])
+      {
+          @if (@message.GetFromUserId() == @Model["thisUser"].GetId())
+          {
+              <div class="container rightBox">
+                <button class="btn btn-danger right" type="submit">x</button>
+                <br>
+                <p class="right">@message.GetId()</p>
+                <br>
+                <p class="right">@message.GetText()</p>
+              </div>
+          } else {
+              <div class="container darker leftBox">
+                <p class="left">@message.GetId()</p>
+                <br>
+                <p class="left">@Model["connectedUser"].GetName(): </p>
+                <br>
+                <p>@message.GetText()</p>
+                @if (@message.GetSeen())
+                {
+                    <span class="right">Seen</span>
+                }
+
+              </div>
+          }
+      }
+
+
       <script type="text/javascript">
-        $(document).ready(function()){
+        $(document).ready(function(){
           $('html, body').scrollTop($(document).height());
         });
+        </script>
     </body>
 </html>
