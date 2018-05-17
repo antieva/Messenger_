@@ -76,15 +76,14 @@
               <div class="container rightBox">
                 <button class="btn btn-danger right" type="submit">x</button>
                 <br>
-                <p class="right">@message.GetId()</p>
+                <p class="">You: </p>
                 <br>
                 <p class="right">@message.GetText()</p>
               </div>
           } else {
               <div class="container darker leftBox">
-                <p class="left">@message.GetId()</p>
                 <br>
-                <p class="left">@Model["connectedUser"].GetName(): </p>
+                <p class="">@Model["connectedUser"].GetName(): </p>
                 <br>
                 <p>@message.GetText()</p>
                 @if (@message.GetSeen())

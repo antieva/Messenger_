@@ -16,14 +16,23 @@ namespace MessengerApp.Controllers
         Console.WriteLine(User);
         if (MessengerApp.Models.User.Unique(Request.Form["userName"]))
         {
-            User newUser = new User(Request.Form["userName"],Request.Form["userPassword"]);
-            newUser.Save();
-            return View("NewUser", newUser);
+            string userPassword1 = Request.Form["userPassword1"];
+            string userPassword2 = Request.Form["userPassword2"];
+            if (userPassword1 == userPassword2)
+            {
+              User newUser = new User(Request.Form["userName"],Request.Form["userPassword1"]);
+              newUser.Save();
+              return View("NewUser", newUser);
+            } else {
+              string errorMessage = "Sorry, your pasword does not match";
+              return View("ErrorMessage", errorMessage);
+            }
         } else {
             string errorMessage = "Sorry, but your login name is not unique.";
             return View("ErrorMessage", errorMessage);
         }
     }
+
     [HttpGet("/users/details")]
     public ActionResult UsersUpdated()
     {
