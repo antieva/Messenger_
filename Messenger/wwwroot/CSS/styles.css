@@ -2,7 +2,7 @@ h1{
   font-family: 'Montserrat', sans-serif;
   font-weight: bold;
   letter-spacing: 2pt;
-  font-size: 50pt;
+  font-size: 60pt;
   text-align: center;
   margin-top: 10%;
 }
@@ -20,8 +20,11 @@ h4{
 }
 body{
   font-family: 'Montserrat', sans-serif;
-  background-image: url();
+  background-color: #FFFFFF;
+  background-image: url(https://static1.squarespace.com/static/582bafbc20099e267f5cc3e8/589092b13e00beee6260e6ca/589093dd03596e99bbe2b620/1502215383280/bear_1600_c.jpg?format=2500w);
+  background-size: 600px 500px;
   background-repeat: no-repeat;
+  background-position: right;
 }
 button{
   margin-left: 25%;
@@ -59,7 +62,7 @@ button{
 .foundNames{
   font-size: 15pt;
   margin-top: 8%;
-  margin-left: 50%;
+  margin-left: 25%;
 }
 .deleteAccountButton{
   margin-top: 30%;
@@ -67,6 +70,26 @@ button{
 }
 .yourConnections{
   font-size: 15pt;
-
+  margin-top: 3%;
   margin-left: 35%;
+}
+.connectionsHeader{
+  margin-left: 6%;
+}
+.textInput{
+  width:70%;
+  font-size: 20pt;
+}
+.typeInput{
+  margin-left: 23%;
+}
+
+iframe {
+  margin-top: 20px;
+  margin-bottom: 30px;
+  margin-left: 13%;
+
+  -moz-border-radius: 12px;
+  -webkit-border-radius: 12px;
+  border-radius: 12px;
 }

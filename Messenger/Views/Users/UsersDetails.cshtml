@@ -4,11 +4,14 @@
     <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'>
     <link rel="stylesheet" type="text/css" href="~/css/styles.css" />
     <meta charset="utf-8">
+    <meta http-equiv = "refresh" content="15">
     <title>Messenger</title>
   </head>
   <body>
     <div class="container">
-     <h1>Messenger App</h1>
+       <h1>CHAT</h1>
+       <h3>Messenger App</h3>
+       <BR>
        <h2>Welcome, @Model["user"].GetName()</h2>
         <nav class="navBar">
           <a href="/home">Logout</a> |
@@ -21,23 +24,24 @@
                 <label class = "searchLabel" for='searchUser'>Find user by name</label>
                 <input name= 'searchUser' class ='form-control inputBox' type='text' placeholder="User Name">
               </div>
-              <button type='submit' 'btn btn-primary'>Submit</button>
+              <button type='submit' class='btn btn-primary'>Submit</button>
             </form>
             <div class="foundNames">
-            @if (@Model["search"].Count != 0)
-            {
-              @foreach (var user in @Model["search"])
+              <p>Click to send a message!</p>
+              @if (@Model["search"].Count != 0)
               {
-                @if(user.GetId() != @Model["user"].GetId())
+                @foreach (var user in @Model["search"])
                 {
-                    <p><a href='/dialog/@Model["user"].GetId()/@user.GetId()'>@user.GetName()</a></p>
+                  @if(user.GetId() != @Model["user"].GetId())
+                  {
+                      <p><a href='/dialog/@Model["user"].GetId()/@user.GetId()'>@user.GetName()</a></p>
+                  }
                 }
               }
-            }
           </div>
           </div>
           <div class="col-md-6">
-            <h2>Your Connections</h2>
+            <h2 class="connectionsHeader">Your Connections</h2>
             <div class="yourConnections">
                 @foreach (var user in @Model["connections"])
                 {
@@ -47,7 +51,7 @@
           </div>
         </div>
         <div class="deleteAccountButton">
-          <form action='/users/@Model["user"].GetId()/delete' method="post" onSubmit="alert("Are you sure you want to delete your account?");">
+          <form action='/users/@Model["user"].GetId()/delete' onclick="return confirm('Are you sure you want to delete your account?');" method="post">
             <button type='submit' class='btn btn-danger'>Delete Your Account</button>
           </form>
         </div>
