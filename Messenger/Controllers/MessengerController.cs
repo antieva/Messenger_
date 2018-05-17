@@ -11,39 +11,41 @@ namespace MessengerApp.Controllers
     [HttpGet("/box/{id}/{connectionId}")]
     public ActionResult Messenger(int id, int connectionId)
     {
-      User thisUser = MessengerApp.Models.User.Find(id);
-      User connectedUser = MessengerApp.Models.User.Find(connectionId);
-      List<Message> messages = Message.GetAll(id,connectionId);
-      Dictionary<string, object> model = new Dictionary<string,object>();
-      model.Add("thisUser", thisUser);
-      model.Add("connectedUser", connectedUser);
-      model.Add("messages", messages);
+        User thisUser = MessengerApp.Models.User.Find(id);
+        User connectedUser = MessengerApp.Models.User.Find(connectionId);
+        List<Message> notSeen = thisUser.GetNotSeen(connectedUser.GetId());
+        thisUser.ChangeToSeen(notSeen);
+        List<Message> messages = Message.GetAll(id,connectionId);
+        Dictionary<string, object> model = new Dictionary<string,object>();
+        model.Add("thisUser", thisUser);
+        model.Add("connectedUser", connectedUser);
+        model.Add("messages", messages);
 
-      return View("DialogBox", model);
+        return View("DialogBox", model);
     }
 
     [HttpGet("/dialog/{id}/{connectionId}")]
     public ActionResult MessengerPage(int id, int connectionId)
     {
-      User thisUser = MessengerApp.Models.User.Find(id);
-      User connectedUser = MessengerApp.Models.User.Find(connectionId);
-      Dictionary<string, object> model = new Dictionary<string,object>();
-      model.Add("thisUser", thisUser);
-      model.Add("connectedUser", connectedUser);
-      return View("DialogPage", model);
+        User thisUser = MessengerApp.Models.User.Find(id);
+        User connectedUser = MessengerApp.Models.User.Find(connectionId);
+        Dictionary<string, object> model = new Dictionary<string,object>();
+        model.Add("thisUser", thisUser);
+        model.Add("connectedUser", connectedUser);
+        return View("DialogPage", model);
     }
 
     [HttpPost("/dialog/{id}/{connectionId}")]
     public ActionResult SendMessage(int id, int connectionId)
     {
-      Message newMessage = new Message(Request.Form["message"], id, connectionId);
-      newMessage.Save();
-      User thisUser = MessengerApp.Models.User.Find(id);
-      User connectedUser = MessengerApp.Models.User.Find(connectionId);
-      Dictionary<string, object> model = new Dictionary<string,object>();
-      model.Add("thisUser", thisUser);
-      model.Add("connectedUser", connectedUser);
-      return View("DialogPage", model);
+        Message newMessage = new Message(Request.Form["message"], id, connectionId);
+        newMessage.Save();
+        User thisUser = MessengerApp.Models.User.Find(id);
+        User connectedUser = MessengerApp.Models.User.Find(connectionId);
+        Dictionary<string, object> model = new Dictionary<string,object>();
+        model.Add("thisUser", thisUser);
+        model.Add("connectedUser", connectedUser);
+        return View("DialogPage", model);
     }
   }
 }

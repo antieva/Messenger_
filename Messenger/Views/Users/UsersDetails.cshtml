@@ -44,7 +44,7 @@
             <h2>Your connections</h2>
               @foreach (var user in @Model["connections"])
               {
-                  <p><a href='/dialog/@Model["user"].GetId()/@user.GetId()'>@user.GetName()</a></p>
+                  <p><a href='/dialog/@Model["user"].GetId()/@user.GetId()'>@user.GetName()</a> - @Model["user"].GetNotSeen(@user.GetId()).Count new messages</p>
               }
 
           </div>

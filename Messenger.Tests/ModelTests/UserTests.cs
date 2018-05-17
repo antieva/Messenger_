@@ -209,5 +209,28 @@ namespace MessengerApp.Tests
 
         CollectionAssert.AreEqual(test, userTwoMessages);
     }
+
+    [TestMethod]
+    public void ChangeToSeen_ChangeSeenFieldToTrue_True()
+    {
+        User userOne = new User("Jim", "1234");
+        userOne.Save();
+        User userTwo = new User("Eva", "4321");
+        userTwo.Save();
+
+        Message firstMessage = new Message("Hey Eva!", userOne.GetId(), userTwo.GetId());
+        firstMessage.Save();
+        Message secondMessage = new Message("Hey Jim!", userTwo.GetId(), userOne.GetId());
+        secondMessage.Save();
+
+        List<Message> fromEvaNotSeenByJim = userOne.GetNotSeen(userTwo.GetId());
+        Console.WriteLine("Jim has not seen messages from Eva: " + fromEvaNotSeenByJim.Count);
+        Console.WriteLine(fromEvaNotSeenByJim[0].GetText());
+        //List<Message> fromEvaNotSeenByJim = new List<Message> {secondMessage};
+        userOne.ChangeToSeen(fromEvaNotSeenByJim);
+        bool result = fromEvaNotSeenByJim[0].GetSeen();
+
+        Assert.AreEqual(true, result);
+    }
   }
 }

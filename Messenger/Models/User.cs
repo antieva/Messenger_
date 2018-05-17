@@ -187,20 +187,20 @@ namespace MessengerApp.Models
         var cmd = conn.CreateCommand() as MySqlCommand;
         cmd.CommandText = @"SELECT * FROM message WHERE fromUserId = (@fromUserId) AND toUserId = (@toUserId) AND seen = (@seen);";
 
-        MySqlParameter fromUserId = new MySqlParameter();
-        fromUserId.ParameterName = "@fromUserId";
-        fromUserId.Value = id;
-        cmd.Parameters.Add(fromUserId);
+        MySqlParameter userId1 = new MySqlParameter();
+        userId1.ParameterName = "@fromUserId";
+        userId1.Value = id;
+        cmd.Parameters.Add(userId1);
 
-        MySqlParameter toUserId = new MySqlParameter();
-        toUserId.ParameterName = "@toUserId";
-        toUserId.Value = _id;
-        cmd.Parameters.Add(toUserId);
+        MySqlParameter userId2 = new MySqlParameter();
+        userId2.ParameterName = "@toUserId";
+        userId2.Value = _id;
+        cmd.Parameters.Add(userId2);
 
-        MySqlParameter seen = new MySqlParameter();
-        seen.ParameterName = "@seen";
-        seen.Value = false;
-        cmd.Parameters.Add(seen);
+        MySqlParameter seenFalse = new MySqlParameter();
+        seenFalse.ParameterName = "@seen";
+        seenFalse.Value = false;
+        cmd.Parameters.Add(seenFalse);
 
         List<Message> allMessages = new List<Message>{};
         var rdr = cmd.ExecuteReader() as MySqlDataReader;
@@ -220,6 +220,37 @@ namespace MessengerApp.Models
             conn.Dispose();
         }
         return allMessages;
+    }
+
+    public void ChangeToSeen(List<Message> notSeenMessages)
+    {
+        MySqlConnection conn = DB.Connection();
+        conn.Open();
+        var cmd = conn.CreateCommand() as MySqlCommand;
+        cmd.CommandText = @"UPDATE message SET seen = (@seentrue) WHERE toUserId = (@thisId);";
+
+        MySqlParameter thisId = new MySqlParameter();
+        thisId.ParameterName = "@thisId";
+        thisId.Value = _id;
+        cmd.Parameters.Add(thisId);
+
+        MySqlParameter seenTrue = new MySqlParameter();
+        seenTrue.ParameterName = "@seentrue";
+        seenTrue.Value = true;
+        cmd.Parameters.Add(seenTrue);
+
+        cmd.ExecuteNonQuery();
+        foreach (var message in notSeenMessages)
+        {
+            message.SetSeen(true);
+            Console.WriteLine(message.GetSeen());
+        }
+
+        conn.Close();
+        if (conn != null)
+        {
+            conn.Dispose();
+        }
     }
 
     public void Save()
