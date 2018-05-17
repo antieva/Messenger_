@@ -39,7 +39,7 @@ namespace MessengerApp.Tests
       User userOne = new User("Eva", "123");
       userOne.Save();
 
-      bool result = User.IsUnique("Jim");
+      bool result = User.Unique("Jim");
       Assert.AreEqual(true, result);
     }
 
@@ -48,7 +48,6 @@ namespace MessengerApp.Tests
     {
       User userOne = new User("Jim", "5421");
       userOne.Save();
-
 
       User result = User.DoesExist("Jim", "5421");
       if (result == null)
@@ -226,13 +225,11 @@ namespace MessengerApp.Tests
     {
       User userOne = new User("Jim", "1234");
       userOne.Save();
-      User userTwo = new User("Eva", "4321");
-      userTwo.Save();
 
       userOne.Edit("Eva", "35435345");
       string result = userOne.GetName();
       Console.WriteLine(userOne.GetName());
-      string test = "Jim";
+      string test = "Eva";
 
       Assert.AreEqual(test, result);
     }

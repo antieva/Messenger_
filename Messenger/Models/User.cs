@@ -297,7 +297,7 @@ namespace MessengerApp.Models
       }
     }
 
-    public void Delete()
+    public static void Delete(int id)
     {
         MySqlConnection conn = DB.Connection();
         conn.Open();
@@ -307,7 +307,7 @@ namespace MessengerApp.Models
 
         MySqlParameter idParameter = new MySqlParameter();
         idParameter.ParameterName = "@thisId";
-        idParameter.Value = _id;
+        idParameter.Value = id;
         cmd.Parameters.Add(idParameter);
 
         cmd.ExecuteNonQuery();
@@ -327,7 +327,7 @@ namespace MessengerApp.Models
               MySqlConnection conn = DB.Connection();
               conn.Open();
               var cmd = conn.CreateCommand() as MySqlCommand;
-              cmd.CommandText = @"UPDATE users SET name = @newName AND password = @newPassword WHERE id = @searchId;";
+              cmd.CommandText = @"UPDATE users SET name = @newName, password = @newPassword WHERE id = @searchId;";
 
               MySqlParameter searchId = new MySqlParameter();
               searchId.ParameterName = "@searchId";
@@ -341,7 +341,7 @@ namespace MessengerApp.Models
 
               MySqlParameter password = new MySqlParameter();
               password.ParameterName = "@newPassword";
-              password.Value = newName;
+              password.Value = newPassword;
               cmd.Parameters.Add(password);
 
               cmd.ExecuteNonQuery();
@@ -358,6 +358,72 @@ namespace MessengerApp.Models
               return false;
           }
       }
+      // public void UpdateUser(string newDescription)
+      //   {
+      //       MySqlConnection conn = DB.Connection();
+      //       conn.Open();
+      //       var cmd = conn.CreateCommand() as MySqlCommand;
+      //       cmd.CommandText = @"UPDATE cities SET description = @newDescription WHERE id = @searchId;";
+      //
+      //       MySqlParameter searchId = new MySqlParameter();
+      //       searchId.ParameterName = "@searchId";
+      //       searchId.Value = _id;
+      //       cmd.Parameters.Add(searchId);
+      //
+      //       MySqlParameter description = new MySqlParameter();
+      //       description.ParameterName = "@newDescription";
+      //       description.Value = newDescription;
+      //       cmd.Parameters.Add(description);
+      //
+      //       cmd.ExecuteNonQuery();
+      //       _description = newDescription;
+      //       conn.Close();
+      //       if (conn != null)
+      //       {
+      //           conn.Dispose();
+      //       }
+      //
+      //   }
+      //
+
+
+
+
+
+
+
+    //   public void Edit(string newDescription)
+    // {
+    //     MySqlConnection conn = DB.Connection();
+    //     conn.Open();
+    //     var cmd = conn.CreateCommand() as MySqlCommand;
+    //     cmd.CommandText = @"UPDATE cities SET description = @newDescription WHERE id = @searchId;";
+    //
+    //     MySqlParameter searchId = new MySqlParameter();
+    //     searchId.ParameterName = "@searchId";
+    //     searchId.Value = _id;
+    //     cmd.Parameters.Add(searchId);
+    //
+    //     MySqlParameter description = new MySqlParameter();
+    //     description.ParameterName = "@newDescription";
+    //     description.Value = newDescription;
+    //     cmd.Parameters.Add(description);
+    //
+    //     cmd.ExecuteNonQuery();
+    //     _description = newDescription;
+    //
+    //     conn.Close();
+    //     if (conn != null)
+    //     {
+    //         conn.Dispose();
+    //     }
+    // }
+
+
+
+
+
+
 
     public static List<User> GetAll()
     {
@@ -396,6 +462,7 @@ namespace MessengerApp.Models
       searchId.ParameterName = "@searchId";
       searchId.Value = id;
       cmd.Parameters.Add(searchId);
+
 
       var rdr = cmd.ExecuteReader() as MySqlDataReader;
       int userId = 0;

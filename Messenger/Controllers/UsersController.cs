@@ -8,11 +8,6 @@ namespace MessengerApp.Controllers
 {
   public class UsersController : Controller
   {
-    // [HttpGet("/users/details")]
-    // public ActionResult UsersDetails()
-    // {
-    //   return View();
-    // }
 
 
     [HttpPost("/users/new")]
@@ -29,8 +24,26 @@ namespace MessengerApp.Controllers
             return View("ErrorMessage", errorMessage);
         }
     }
+    [HttpGet("/users/details")]
+    public ActionResult UsersUpdated()
+    {
+      return View("UsersDetails");
+    }
+    [HttpGet("/users/{id}")]
+    public ActionResult UserProfile(int id)
+    {
+      User currentUser = MessengerApp.Models.User.Find(id);
+      List<User> searchedUsers = MessengerApp.Models.User.Search(currentUser.GetName());
+      List<User> thisUserConnections = currentUser.GetConnectionsFrom();
+      thisUserConnections = currentUser.GetConnectionsTo(thisUserConnections);
+      Dictionary<string, object> model = new Dictionary<string, object>();
+      model.Add("user", currentUser);
+      model.Add("connections", thisUserConnections);
+      model.Add("search", searchedUsers);
 
-    [HttpPost ("/users/details")]
+      return View("UsersDetails", model);
+    }
+    [HttpPost("/users/details")]
     public ActionResult UsersDetails()
     {
         Console.WriteLine("User name: " + Request.Form["name"]);
@@ -67,11 +80,31 @@ namespace MessengerApp.Controllers
 
         return View("UsersDetails", model);
     }
-
-    [HttpPost("/users/update")]
-    public ActionResult UpdateAccount()
+  
+    [HttpGet("/users/{id}/update")]
+    public ActionResult UpdateAccount(int id)
     {
-      return View("UpdateAccount");
+      User thisUser = MessengerApp.Models.User.Find(id);
+      Console.Write(" ");
+      return View(thisUser);
+    }
+    
+    [HttpPost("/users/{id}/update")]
+    public ActionResult UpdateAccountForm(int id)
+    {
+      Console.Write(" This is the start ");
+      User thisUser = MessengerApp.Models.User.Find(id);
+      thisUser.Edit(Request.Form["name"], Request.Form["password"]);
+      Console.Write(" Hello ");
+      Console.WriteLine(" This new user is: " + thisUser);
+      return RedirectToAction("UserProfile", new {id = id});
+    }
+    
+    [HttpPost("/users/{id}/delete")]
+    public ActionResult DeleteAccount(int id)
+    {
+      MessengerApp.Models.User.Delete(id);
+      return RedirectToAction("Index", "HomeController");
     }
 
     [HttpPost("/users/search/{id}")]
@@ -87,6 +120,5 @@ namespace MessengerApp.Controllers
       model.Add("search", searchedUsers);
       return View("UsersDetails", model);
     }
-
   }
 }
