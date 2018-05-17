@@ -144,7 +144,7 @@ namespace MessengerApp.Models
             MySqlConnection conn = DB.Connection();
             conn.Open();
             var cmd = conn.CreateCommand() as MySqlCommand;
-            cmd.CommandText = @"SELECT * FROM message WHERE fromUserId = @searchId1 AND toUserId = @searchId2;";
+            cmd.CommandText = @"SELECT * FROM message WHERE fromUserId = @searchId1 AND toUserId = @searchId2 OR fromUserId = @searchId2 AND toUserId = @searchId1 ORDER BY id;";
 
             MySqlParameter searchId1 = new MySqlParameter();
             searchId1.ParameterName = "@searchId1";

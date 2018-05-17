@@ -34,8 +34,7 @@ namespace MessengerApp.Controllers
     {
       User currentUser = MessengerApp.Models.User.Find(id);
       List<User> searchedUsers = MessengerApp.Models.User.Search(currentUser.GetName());
-      List<User> thisUserConnections = currentUser.GetConnectionsFrom();
-      thisUserConnections = currentUser.GetConnectionsTo(thisUserConnections);
+      List<User> thisUserConnections = currentUser.GetConnections();
       Dictionary<string, object> model = new Dictionary<string, object>();
       model.Add("user", currentUser);
       model.Add("connections", thisUserConnections);
@@ -56,8 +55,7 @@ namespace MessengerApp.Controllers
             return View("ErrorMessage", errorMessage);
         }
         List<User> searchedUsers = MessengerApp.Models.User.Search(Request.Form["searchUser"]);
-        List<User> thisUserConnections = newUser.GetConnectionsFrom();
-        thisUserConnections = newUser.GetConnectionsTo(thisUserConnections);
+        List<User> thisUserConnections = newUser.GetConnections();
         Dictionary<string, object> model = new Dictionary<string, object>();
         model.Add("user", newUser);
         model.Add("connections", thisUserConnections);
@@ -71,8 +69,7 @@ namespace MessengerApp.Controllers
     {
         User thisUser = MessengerApp.Models.User.Find(id);
         List<User> searchedUsers = new List<User>();
-        List<User> thisUserConnections = thisUser.GetConnectionsFrom();
-        thisUserConnections = thisUser.GetConnectionsTo(thisUserConnections);
+        List<User> thisUserConnections = thisUser.GetConnections();
         Dictionary<string, object> model = new Dictionary<string, object>();
         model.Add("user", thisUser);
         model.Add("connections", thisUserConnections);
@@ -80,7 +77,7 @@ namespace MessengerApp.Controllers
 
         return View("UsersDetails", model);
     }
-  
+
     [HttpGet("/users/{id}/update")]
     public ActionResult UpdateAccount(int id)
     {
@@ -88,7 +85,7 @@ namespace MessengerApp.Controllers
       Console.Write(" ");
       return View(thisUser);
     }
-    
+
     [HttpPost("/users/{id}/update")]
     public ActionResult UpdateAccountForm(int id)
     {
@@ -99,7 +96,7 @@ namespace MessengerApp.Controllers
       Console.WriteLine(" This new user is: " + thisUser);
       return RedirectToAction("UserProfile", new {id = id});
     }
-    
+
     [HttpPost("/users/{id}/delete")]
     public ActionResult DeleteAccount(int id)
     {
@@ -111,8 +108,7 @@ namespace MessengerApp.Controllers
     public ActionResult SearchUser(int id)
     {
       User newUser = MessengerApp.Models.User.Find(id);
-      List<User> thisUserConnections = newUser.GetConnectionsFrom();
-      thisUserConnections = newUser.GetConnectionsTo(thisUserConnections);
+      List<User> thisUserConnections = newUser.GetConnections();
       List<User> searchedUsers = MessengerApp.Models.User.Search(Request.Form["searchUser"]);
       Dictionary<string, object> model = new Dictionary<string, object>();
       model.Add("user", newUser);

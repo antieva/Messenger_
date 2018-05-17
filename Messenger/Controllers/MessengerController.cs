@@ -14,21 +14,6 @@ namespace MessengerApp.Controllers
       User thisUser = MessengerApp.Models.User.Find(id);
       User connectedUser = MessengerApp.Models.User.Find(connectionId);
       List<Message> messages = Message.GetAll(id,connectionId);
-      List<Message> messagesToThisUser = Message.GetAll(connectionId,id);
-      messages.AddRange(messagesToThisUser);
-      Message tmp = new Message("",0,0);
-      for (int i = 0; i < messages.Count; i++)
-      {
-          for (int j = i + 1; j < messages.Count; j++)
-          {
-              if (messages[i].GetId() > messages[j].GetId())
-              {
-                  tmp = messages[i];
-                  messages.Remove(messages[i]);
-                  messages.Insert(j, tmp);
-              }
-          }
-      }
       Dictionary<string, object> model = new Dictionary<string,object>();
       model.Add("thisUser", thisUser);
       model.Add("connectedUser", connectedUser);

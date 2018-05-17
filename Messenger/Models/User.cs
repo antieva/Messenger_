@@ -100,19 +100,20 @@ namespace MessengerApp.Models
     }
 
 
-    public List<User> GetConnectionsFrom()
+    public List<User> GetConnections()
     {
       MySqlConnection conn = DB.Connection();
       conn.Open();
       var cmd = conn.CreateCommand() as MySqlCommand;
       cmd.CommandText = @"SELECT * FROM users
       JOIN message WHERE message.toUserId = users.id
-      AND message.fromUserId = @fromUserId;";
+      AND message.fromUserId = @userId OR message.fromUserId = users.id
+      AND message.toUserId = @userId ORDER BY name;";
 
-      MySqlParameter checkingFromUserId = new MySqlParameter();
-      checkingFromUserId.ParameterName = "@fromUserId";
-      checkingFromUserId.Value = _id;
-      cmd.Parameters.Add(checkingFromUserId);
+      MySqlParameter checkingUserId = new MySqlParameter();
+      checkingUserId.ParameterName = "@userId";
+      checkingUserId.Value = _id;
+      cmd.Parameters.Add(checkingUserId);
 
       var rdr = cmd.ExecuteReader() as MySqlDataReader;
       int userId = 0;
@@ -134,48 +135,6 @@ namespace MessengerApp.Models
       return connections;
 
     }
-
-    public List<User> GetConnectionsTo(List<User> connectionsFrom)
-    {
-      MySqlConnection conn = DB.Connection();
-      conn.Open();
-      var cmd = conn.CreateCommand() as MySqlCommand;
-      cmd.CommandText = @"SELECT * FROM users
-      JOIN message WHERE message.fromUserId = users.id
-      AND message.toUserId = @toUserId;";
-
-      MySqlParameter checkingToUserId = new MySqlParameter();
-      checkingToUserId.ParameterName = "@toUserId";
-      checkingToUserId.Value = _id;
-      cmd.Parameters.Add(checkingToUserId);
-
-      var rdr = cmd.ExecuteReader() as MySqlDataReader;
-      int userId = 0;
-      string userName = "";
-      string userPassword = "";
-
-      while(rdr.Read())
-      {
-        userId = rdr.GetInt32(0);
-        userName = rdr.GetString(1);
-        userPassword = rdr.GetString(2);
-        User newUser = new User(userName, userPassword, userId);
-        if (!connectionsFrom.Contains(newUser))
-          {
-            connectionsFrom.Add(newUser);
-          }
-      }
-
-      conn.Close();
-      if (conn != null)
-      {
-          conn.Dispose();
-      }
-      return connectionsFrom;
-
-    }
-
-
 
     public static User DoesExist(string loginName, string loginPassword)
     {
