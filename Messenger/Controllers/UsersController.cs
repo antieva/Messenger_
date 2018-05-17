@@ -109,7 +109,8 @@ namespace MessengerApp.Controllers
     [HttpPost("/users/{id}/delete")]
     public ActionResult DeleteAccount(int id)
     {
-      MessengerApp.Models.User.Delete(id);
+      User newUser = MessengerApp.Models.User.Find(id);
+      newUser.Delete();
       return RedirectToAction("Index", "HomeController");
     }
 

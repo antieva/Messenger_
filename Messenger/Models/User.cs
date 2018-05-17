@@ -180,53 +180,47 @@ namespace MessengerApp.Models
         }
       }
 
-
-
     public List<Message> GetNotSeen (int id)
+    {
+        MySqlConnection conn = DB.Connection();
+        conn.Open();
+        var cmd = conn.CreateCommand() as MySqlCommand;
+        cmd.CommandText = @"SELECT * FROM message WHERE fromUserId = (@fromUserId) AND toUserId = (@toUserId) AND seen = (@seen);";
+
+        MySqlParameter fromUserId = new MySqlParameter();
+        fromUserId.ParameterName = "@fromUserId";
+        fromUserId.Value = id;
+        cmd.Parameters.Add(fromUserId);
+
+        MySqlParameter toUserId = new MySqlParameter();
+        toUserId.ParameterName = "@toUserId";
+        toUserId.Value = _id;
+        cmd.Parameters.Add(toUserId);
+
+        MySqlParameter seen = new MySqlParameter();
+        seen.ParameterName = "@seen";
+        seen.Value = false;
+        cmd.Parameters.Add(seen);
+
+        List<Message> allMessages = new List<Message>{};
+        var rdr = cmd.ExecuteReader() as MySqlDataReader;
+        while(rdr.Read())
         {
-            MySqlConnection conn = DB.Connection();
-            conn.Open();
-            var cmd = conn.CreateCommand() as MySqlCommand;
-            cmd.CommandText = @"SELECT * FROM message WHERE fromUserId = (@fromUserId) AND toUserId = (@toUserId) AND seen = (@seen);";
-
-            MySqlParameter fromUserId = new MySqlParameter();
-            fromUserId.ParameterName = "@fromUserId";
-            fromUserId.Value = id;
-            cmd.Parameters.Add(fromUserId);
-
-            MySqlParameter toUserId = new MySqlParameter();
-            toUserId.ParameterName = "@toUserId";
-            toUserId.Value = _id;
-            cmd.Parameters.Add(toUserId);
-
-            MySqlParameter seen = new MySqlParameter();
-            seen.ParameterName = "@seen";
-            seen.Value = false;
-            cmd.Parameters.Add(seen);
-
-            List<Message> allMessages = new List<Message>{};
-            var rdr = cmd.ExecuteReader() as MySqlDataReader;
-            while(rdr.Read())
-            {
-              int messageId = rdr.GetInt32(0);
-              string messageText = rdr.GetString(1);
-              int fromId = rdr.GetInt32(2);
-              int toId = rdr.GetInt32(3);
-              bool messageSeen = rdr.GetBoolean(4);
-              Message newMessage = new Message(messageText, fromId, toId, messageId, messageSeen);
-              allMessages.Add(newMessage);
-            }
-            conn.Close();
-            if (conn != null)
-            {
-                conn.Dispose();
-            }
-            return allMessages;
+          int messageId = rdr.GetInt32(0);
+          string messageText = rdr.GetString(1);
+          int fromId = rdr.GetInt32(2);
+          int toId = rdr.GetInt32(3);
+          bool messageSeen = rdr.GetBoolean(4);
+          Message newMessage = new Message(messageText, fromId, toId, messageId, messageSeen);
+          allMessages.Add(newMessage);
         }
-
-
-
-
+        conn.Close();
+        if (conn != null)
+        {
+            conn.Dispose();
+        }
+        return allMessages;
+    }
 
     public void Save()
     {
@@ -256,17 +250,17 @@ namespace MessengerApp.Models
       }
     }
 
-    public static void Delete(int id)
+    public void Delete()
     {
         MySqlConnection conn = DB.Connection();
         conn.Open();
 
         var cmd = conn.CreateCommand() as MySqlCommand;
-        cmd.CommandText = @"DELETE FROM users WHERE id = @thisId;";
+        cmd.CommandText = @"DELETE FROM users WHERE id = @thisId; DELETE FROM message WHERE fromUserId = @thisId OR toUserId = @thisId;";
 
         MySqlParameter idParameter = new MySqlParameter();
         idParameter.ParameterName = "@thisId";
-        idParameter.Value = id;
+        idParameter.Value = _id;
         cmd.Parameters.Add(idParameter);
 
         cmd.ExecuteNonQuery();
@@ -317,72 +311,6 @@ namespace MessengerApp.Models
               return false;
           }
       }
-      // public void UpdateUser(string newDescription)
-      //   {
-      //       MySqlConnection conn = DB.Connection();
-      //       conn.Open();
-      //       var cmd = conn.CreateCommand() as MySqlCommand;
-      //       cmd.CommandText = @"UPDATE cities SET description = @newDescription WHERE id = @searchId;";
-      //
-      //       MySqlParameter searchId = new MySqlParameter();
-      //       searchId.ParameterName = "@searchId";
-      //       searchId.Value = _id;
-      //       cmd.Parameters.Add(searchId);
-      //
-      //       MySqlParameter description = new MySqlParameter();
-      //       description.ParameterName = "@newDescription";
-      //       description.Value = newDescription;
-      //       cmd.Parameters.Add(description);
-      //
-      //       cmd.ExecuteNonQuery();
-      //       _description = newDescription;
-      //       conn.Close();
-      //       if (conn != null)
-      //       {
-      //           conn.Dispose();
-      //       }
-      //
-      //   }
-      //
-
-
-
-
-
-
-
-    //   public void Edit(string newDescription)
-    // {
-    //     MySqlConnection conn = DB.Connection();
-    //     conn.Open();
-    //     var cmd = conn.CreateCommand() as MySqlCommand;
-    //     cmd.CommandText = @"UPDATE cities SET description = @newDescription WHERE id = @searchId;";
-    //
-    //     MySqlParameter searchId = new MySqlParameter();
-    //     searchId.ParameterName = "@searchId";
-    //     searchId.Value = _id;
-    //     cmd.Parameters.Add(searchId);
-    //
-    //     MySqlParameter description = new MySqlParameter();
-    //     description.ParameterName = "@newDescription";
-    //     description.Value = newDescription;
-    //     cmd.Parameters.Add(description);
-    //
-    //     cmd.ExecuteNonQuery();
-    //     _description = newDescription;
-    //
-    //     conn.Close();
-    //     if (conn != null)
-    //     {
-    //         conn.Dispose();
-    //     }
-    // }
-
-
-
-
-
-
 
     public static List<User> GetAll()
     {
