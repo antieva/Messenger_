@@ -81,6 +81,11 @@
                 <p class="senderName">You: </p>
                 <br>
                 <p class="right">@message.GetText()</p>
+                <br>
+                @if (@message.GetSeen())
+                {
+                    <span>Seen</span>
+                }
               </div>
           } else {
               <div class="container darker leftBox">
@@ -88,11 +93,7 @@
                 <p class="receiverName">@Model["connectedUser"].GetName(): </p>
                 <br>
                 <p class="leftMessage">@message.GetText()</p>
-                @if (@message.GetSeen())
-                {
-                    <span class="">Seen</span>
-                }
-
+                <p>@message.GetText()</p>
               </div>
           }
       }
