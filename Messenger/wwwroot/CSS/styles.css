@@ -42,3 +42,7 @@ button{
 .searchLabel{
   margin-left: 45%;
 }
+.inputBox{
+  width: 50%;
+  margin-left: 25%;
+}
