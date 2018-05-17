@@ -5,47 +5,66 @@
   <meta http-equiv = "refresh" content="5">
   <script   src="https://code.jquery.com/jquery-3.3.1.min.js"   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="   crossorigin="anonymous"></script>
   <style>
-body {
-    margin: 0 auto;
-    max-width: 1500px;
-    padding: 0 20px;
-}
-.container {
-    border: 2px solid #dedede;
-    background-color: #f1f1f1;
-    border-radius: 10px;
-    padding: 15px;
-    margin: 20px 0;
-}
-.darker {
-    border-color: #ccc;
-    background-color: #ddd;
-}
-.container::after {
-    content: "";
-    clear: both;
-    display: table;
-}
-.right {
-    float: right;
-    color: #aaa;
-}
+    body {
+        margin: 0 auto;
+        max-width: 1500px;
+        padding: 0 20px;
+        background-color: #ffffff;
+    }
+    .container {
+        border: .5px solid #dedede;
+        background-color: #DAEDE8;
+        border-radius: 10px;
+        padding: 15px;
+        margin: 20px 0;
+    }
+    .darker {
+        border-color: #ccc;
+        background-color: #9AD0F4;
+    }
+    .container::after {
+        content: "";
+        clear: both;
+        display: table;
+    }
+    .right {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 20pt;
+        float: right;
+        color: #aaa;
+    }
+    .leftMessage {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 20pt;
+      float: right;
+      color: #aaa;
+    }
 
-.left {
-    float: left;
-    color: #999;
-}
-.leftBox {
-    float: left;
-    color: #999;
-    width: 50%;
-}
+    .left {
+        font-family: 'Montserrat', sans-serif;
+        float: left;
+        color: #999;
+    }
+    .leftBox {
+        float: left;
+        color: #black;
+        width: 50%;
+    }
 
-.rightBox {
-    float: right;
-    color: #aaa;
-    width: 50%;
-}
+    .rightBox {
+        float: right;
+        color: #black;
+        width: 50%;
+    }
+    .senderName{
+      font-family: 'Montserrat', sans-serif;
+      font-size: 12pt;
+    }
+    .receiverName{
+        font-family: 'Montserrat', sans-serif;
+        font-size: 12pt;
+    }
+
   </style>
   <title></title>
   </head>
@@ -59,7 +78,7 @@ body {
                 <button class="btn btn-danger right" type="submit">x</button>
                 <br>
               </form>
-                <p class="">You: </p>
+                <p class="senderName">You: </p>
                 <br>
                 <p class="right">@message.GetText()</p>
                 <br>
@@ -71,11 +90,10 @@ body {
           } else {
               <div class="container darker leftBox">
                 <br>
-                <p class="">@Model["connectedUser"].GetName(): </p>
+                <p class="receiverName">@Model["connectedUser"].GetName(): </p>
                 <br>
+                <p class="leftMessage">@message.GetText()</p>
                 <p>@message.GetText()</p>
-
-
               </div>
           }
       }
