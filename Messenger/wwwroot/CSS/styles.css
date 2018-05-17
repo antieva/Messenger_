@@ -22,9 +22,9 @@ body{
   font-family: 'Montserrat', sans-serif;
   background-color: #FFFFFF;
   background-image: url(https://static1.squarespace.com/static/582bafbc20099e267f5cc3e8/589092b13e00beee6260e6ca/589093dd03596e99bbe2b620/1502215383280/bear_1600_c.jpg?format=2500w);
-  background-size: 600px 500px;
+  background-size: 500px 400px;
   background-repeat: no-repeat;
-  background-position: right;
+  background-position: top right;
 }
 button{
   margin-left: 25%;
