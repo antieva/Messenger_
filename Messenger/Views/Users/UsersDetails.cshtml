@@ -12,17 +12,18 @@
        <h2>Welcome, @Model["user"].GetName()</h2>
         <nav class="navBar">
           <a href="/home">Logout</a> |
-          <a href='/users/@Model["user"].GetId()/update'>Update Profile</a> 
+          <a href='/users/@Model["user"].GetId()/update'>Update Profile</a>
         </nav>
         <div class="row">
           <div class="col-md-6">
             <form class="userForm" action='/users/search/@Model["user"].GetId()' method="post">
               <div class='form-group'>
                 <label class = "searchLabel" for='searchUser'>Find user by name</label>
-                <input name= 'searchUser' class ='form-control width' type='text' placeholder="User Name">
+                <input name= 'searchUser' class ='form-control inputBox' type='text' placeholder="User Name">
               </div>
-              <button type='submit' class='btn btn-primary'>Submit</button>
+              <button type='submit' 'btn btn-primary'>Submit</button>
             </form>
+            <div class="foundNames">
             @if (@Model["search"].Count != 0)
             {
               @foreach (var user in @Model["search"])
@@ -34,18 +35,20 @@
               }
             }
           </div>
+          </div>
           <div class="col-md-6">
-            <h2>Your connections</h2>
-              @foreach (var user in @Model["connections"])
-              {
-                  <p><a href='/dialog/@Model["user"].GetId()/@user.GetId()'>@user.GetName()</a> - @Model["user"].GetNotSeen(@user.GetId()).Count new messages</p>
-              }
-
+            <h2>Your Connections</h2>
+            <div class="yourConnections">
+                @foreach (var user in @Model["connections"])
+                {
+                    <p><a href='/dialog/@Model["user"].GetId()/@user.GetId()'>@user.GetName()</a> - @Model["user"].GetNotSeen(@user.GetId()).Count new messages</p>
+                }
+            </div>
           </div>
         </div>
-        <div class="">
+        <div class="deleteAccountButton">
           <form action='/users/@Model["user"].GetId()/delete' method="post" onSubmit="alert("Are you sure you want to delete your account?");">
-            <button type='submit'>Delete Your Account</button>
+            <button type='submit' class='btn btn-danger'>Delete Your Account</button>
           </form>
         </div>
       </div>
