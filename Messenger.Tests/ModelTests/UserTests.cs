@@ -58,8 +58,71 @@ namespace MessengerApp.Tests
       Assert.AreEqual(userOne, result);
     }
 
+    // [TestMethod]
+    // public void GetConnectionsFrom_CheckByThisUserId_ListOfUsers()
+    // {
+    //   User userOne = new User("Jim", "5421");
+    //   userOne.Save();
+    //
+    //   User userTwo = new User("Eva", "1234");
+    //   userTwo.Save();
+    //
+    //   User userThree = new User("Verna", "7890");
+    //   userThree.Save();
+    //
+    //
+    //   Message messageOne = new Message("Hi", userOne.GetId(), userTwo.GetId());
+    //   messageOne.Save();
+    //   Message messageTwo = new Message("Hi", userOne.GetId(), userThree.GetId());
+    //   messageTwo.Save();
+    //
+    //   Message messageThree = new Message("Hi", userOne.GetId(), userTwo.GetId());
+    //   messageThree.Save();
+    //
+    //   List<User> result = userOne.GetConnectionsFrom();
+    //
+    //   List<User> test = new List<User> {userTwo, userThree};
+    //
+    //   CollectionAssert.AreEqual(test, result);
+    // }
+    //
+    // [TestMethod]
+    // public void GetConnectionsTo_GetTo_ListOfUsers()
+    // {
+    //   User userOne = new User("Jim", "5421");
+    //   userOne.Save();
+    //
+    //   User userTwo = new User("Eva", "1234");
+    //   userTwo.Save();
+    //
+    //   User userThree = new User("Verna", "7890");
+    //   userThree.Save();
+    //
+    //
+    //   Message messageOne = new Message("Hi", userTwo.GetId(), userOne.GetId());
+    //   messageOne.Save();
+    //   Message messageTwo = new Message("Hi", userThree.GetId(),userOne.GetId());
+    //   messageTwo.Save();
+    //
+    //   Message messageThree = new Message("Hi", userTwo.GetId(), userOne.GetId());
+    //   messageThree.Save();
+    //
+    //   List<User> result = userOne.GetConnectionsFrom();
+    //
+    //   result = userOne.GetConnectionsTo(result);
+    //
+    //   foreach (var user in result)
+    //   {
+    //       Console.WriteLine(user.GetName());
+    //   }
+    //   List<User> test = new List<User> {userTwo, userThree};
+    //   Console.WriteLine("List: " + result.Count);
+    //
+    //   CollectionAssert.AreEqual(test, result);
+    // }
+
     [TestMethod]
-    public void GetConnectionsFrom_CheckByThisUserId_ListOfUsers()
+    public void GetConnections_GetToAndFrom_ListOfUsers()
     {
       User userOne = new User("Jim", "5421");
       userOne.Save();
@@ -70,88 +133,28 @@ namespace MessengerApp.Tests
       User userThree = new User("Verna", "7890");
       userThree.Save();
 
+      User userFour = new User("Jane", "7890");
+      userFour.Save();
 
-      Message messageOne = new Message("Hi", userOne.GetId(), userTwo.GetId());
+
+      Message messageOne = new Message("Hi Jim", userTwo.GetId(), userOne.GetId());
       messageOne.Save();
-      Message messageTwo = new Message("Hi", userOne.GetId(), userThree.GetId());
+      Message messageTwo = new Message("Hi Eva", userOne.GetId(),userThree.GetId());
       messageTwo.Save();
 
-      Message messageThree = new Message("Hi", userOne.GetId(), userTwo.GetId());
+      Message messageThree = new Message("Hi Jim", userThree.GetId(), userOne.GetId());
       messageThree.Save();
 
-      List<User> result = userOne.GetConnectionsFrom();
+      Message messageFour = new Message("Hi Jim", userFour.GetId(), userOne.GetId());
+      messageFour.Save();
 
-      List<User> test = new List<User> {userTwo, userThree};
-
-      CollectionAssert.AreEqual(test, result);
-    }
-
-    [TestMethod]
-    public void GetConnectionsTo_GetTo_ListOfUsers()
-    {
-      User userOne = new User("Jim", "5421");
-      userOne.Save();
-
-      User userTwo = new User("Eva", "1234");
-      userTwo.Save();
-
-      User userThree = new User("Verna", "7890");
-      userThree.Save();
-
-
-      Message messageOne = new Message("Hi", userTwo.GetId(), userOne.GetId());
-      messageOne.Save();
-      Message messageTwo = new Message("Hi", userThree.GetId(),userOne.GetId());
-      messageTwo.Save();
-
-      Message messageThree = new Message("Hi", userTwo.GetId(), userOne.GetId());
-      messageThree.Save();
-
-      List<User> result = userOne.GetConnectionsFrom();
-
-      result = userOne.GetConnectionsTo(result);
+      List<User> result = userOne.GetConnections();
 
       foreach (var user in result)
       {
           Console.WriteLine(user.GetName());
       }
-      List<User> test = new List<User> {userTwo, userThree};
-      Console.WriteLine("List: " + result.Count);
-
-      CollectionAssert.AreEqual(test, result);
-    }
-
-    [TestMethod]
-    public void GetConnectionsToandFrom_GetToAndFrom_ListOfUsers()
-    {
-      User userOne = new User("Jim", "5421");
-      userOne.Save();
-
-      User userTwo = new User("Eva", "1234");
-      userTwo.Save();
-
-      User userThree = new User("Verna", "7890");
-      userThree.Save();
-
-
-      Message messageOne = new Message("Hi", userTwo.GetId(), userOne.GetId());
-      messageOne.Save();
-      Message messageTwo = new Message("Hi", userOne.GetId(),userThree.GetId());
-      messageTwo.Save();
-
-      Message messageThree = new Message("Hi", userTwo.GetId(), userOne.GetId());
-      messageThree.Save();
-
-      List<User> result = userOne.GetConnectionsFrom();
-
-      result = userOne.GetConnectionsTo(result);
-
-
-      foreach (var user in result)
-      {
-          Console.WriteLine(user.GetName());
-      }
-      List<User> test = new List<User> {userThree, userTwo};
+      List<User> test = new List<User> {userTwo, userFour, userThree};
       Console.WriteLine("List: " + result.Count);
 
       CollectionAssert.AreEqual(test, result);

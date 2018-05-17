@@ -38,11 +38,18 @@ namespace MessengerApp.Tests
       userOne.Save();
       User userTwo = new User("Eva", "4321");
       userTwo.Save();
+      User userThree = new User("Verna", "1515");
+      userThree.Save();
+
 
       Message firstMessage = new Message("Hey Eva!", userOne.GetId(), userTwo.GetId());
       firstMessage.Save();
       Message secondMessage = new Message("Hey Jim!", userTwo.GetId(), userOne.GetId());
       secondMessage.Save();
+
+      Message thirdMessage = new Message("Hey Jim!", userThree.GetId(), userOne.GetId());
+      thirdMessage.Save();
+
 
       Console.WriteLine("User 1 id:");
       Console.WriteLine(userOne.GetId());
@@ -50,14 +57,14 @@ namespace MessengerApp.Tests
       Console.WriteLine("User 2 id:");
       Console.WriteLine(userTwo.GetId());
 
-      List<Message> allMessagesFromJim = Message.GetAll(userOne.GetId(), userTwo.GetId());
-      Console.WriteLine(allMessagesFromJim.Count);
-      List<Message> test = new List<Message>{firstMessage};
+      List<Message> allMessages = Message.GetAll(userOne.GetId(), userTwo.GetId());
+      Console.WriteLine(allMessages.Count);
+      List<Message> test = new List<Message>{firstMessage, secondMessage};
       Console.WriteLine(test.Count);
 
 
       //Assert
-      CollectionAssert.AreEqual(test, allMessagesFromJim);
+      CollectionAssert.AreEqual(test, allMessages);
     }
 
   }
