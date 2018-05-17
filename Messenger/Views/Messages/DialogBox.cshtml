@@ -1,18 +1,75 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'>
-    <link rel="stylesheet" type="text/css" href="~/css/styles.css" />
-    <meta charset="utf-8">
-    <title>Messenger</title>
+  <meta charset="utf-8">
+  <!--<meta http-equiv = "refresh" content="2">-->
+  <style>
+  body {
+      margin: 0 auto;
+      max-width: 1500px;
+      padding: 0 20px;
+  }
+
+  .container {
+      border: 2px solid #dedede;
+      background-color: #f1f1f1;
+      border-radius: 10px;
+      padding: 15px;
+      margin: 20px 0;
+  }
+
+  .darker {
+      border-color: #ccc;
+      background-color: #ddd;
+  }
+
+  .container::after {
+      content: "";
+      clear: both;
+      display: table;
+  }
+
+  .container img {
+      float: left;
+      max-width: 60px;
+      width: 100%;
+      margin-right: 20px;
+      border-radius: 50%;
+  }
+
+  .container img.right {
+      float: right;
+      margin-left: 10px;
+      margin-right:0;
+  }
+
+  .right {
+      float: right;
+      color: #aaa;
+  }
+
+  .left {
+      float: left;
+      color: #999;
+  }
+    </style>
+  <title></title>
+  <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlNf0u91ta32o/NMZxltwRo8QtmkMRdAu8" crossorigin="anonymous"></script>
   </head>
-  <body>
-    <div class ="container">
-      <h1>Message Box</h1>
-      <iframe></iframe>
-      <nav class="navBar">
-        <a href="/home">Log out</a>
-      </nav>
+    <body>
+      <div class="container">
+        <button class="btn btn-danger right" type="submit">x</button>
+      <br>
+      <br>
+      <span class="right">seen</span>
       </div>
+      <div class="container darker">
+        <p>User2</p>
+        <span class="left">11:01</span>
+      </div>
+      <script type="text/javascript">
+        $(document).ready(function()){
+          $('html, body').scrollTop($(document).height());
+        });
     </body>
-  </html>
+</html>
