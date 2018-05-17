@@ -1,9 +1,5 @@
-@font-face {
-    font-family: Bodoni XT;
-    src: url(BodoniXT_ttf);
-}
 h1{
-  font-family: Bodoni XT;
+  font-family: 'Montserrat', sans-serif;
   font-weight: bold;
   letter-spacing: 2pt;
   font-size: 50pt;
@@ -23,13 +19,27 @@ h4{
   margin-top: 2%;
 }
 body{
-  font-family: Bodoni XT;
-  background-image: url(https://static1.squarespace.com/static/582bafbc20099e267f5cc3e8/589092b13e00beee6260e6ca/589093e2e58c62b50ea9e32a/1502215383324/zebra_1250.jpg?format=1500w);
+  font-family: 'Montserrat', sans-serif;
+  background-image: url();
+  background-repeat: no-repeat;
 }
 button{
-  margin-left: 50%;
+  margin-left: 25%;
+  display: inline-block;
+  -webkit-font-smoothing: antialiased;
+  background-color: #222; /* dark blue */
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  font-weight: 100;
+  text-decoration: none;
+  user-select: none;
+  letter-spacing: 1px;
+  color: white;
+  padding: 20px 40px;
+  text-transform: uppercase;
 }
 .navBar{
+  margin-bottom: 8%;
   text-align: center;
   font-size: 15pt;
 }
@@ -45,4 +55,18 @@ button{
 .inputBox{
   width: 50%;
   margin-left: 25%;
+}
+.foundNames{
+  font-size: 15pt;
+  margin-top: 8%;
+  margin-left: 50%;
+}
+.deleteAccountButton{
+  margin-top: 30%;
+  text-align: center;
+}
+.yourConnections{
+  font-size: 15pt;
+
+  margin-left: 35%;
 }
