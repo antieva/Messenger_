@@ -5,68 +5,49 @@
   <meta http-equiv = "refresh" content="5">
   <script   src="https://code.jquery.com/jquery-3.3.1.min.js"   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="   crossorigin="anonymous"></script>
   <style>
-  body {
-      margin: 0 auto;
-      max-width: 1500px;
-      padding: 0 20px;
-  }
+body {
+    margin: 0 auto;
+    max-width: 1500px;
+    padding: 0 20px;
+}
+.container {
+    border: 2px solid #dedede;
+    background-color: #f1f1f1;
+    border-radius: 10px;
+    padding: 15px;
+    margin: 20px 0;
+}
+.darker {
+    border-color: #ccc;
+    background-color: #ddd;
+}
+.container::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+.right {
+    float: right;
+    color: #aaa;
+}
 
-  .container {
-      border: 2px solid #dedede;
-      background-color: #f1f1f1;
-      border-radius: 10px;
-      padding: 15px;
-      margin: 20px 0;
-  }
+.left {
+    float: left;
+    color: #999;
+}
+.leftBox {
+    float: left;
+    color: #999;
+    width: 50%;
+}
 
-  .darker {
-      border-color: #ccc;
-      background-color: #ddd;
-  }
-
-  .container::after {
-      content: "";
-      clear: both;
-      display: table;
-  }
-
-  .container img {
-      float: left;
-      max-width: 60px;
-      width: 100%;
-      margin-right: 20px;
-      border-radius: 50%;
-  }
-
-  .container img.right {
-      float: right;
-      margin-left: 10px;
-      margin-right:0;
-  }
-
-  .right {
-      float: right;
-      color: #aaa;
-  }
-
-  .left {
-      float: left;
-      color: #999;
-  }
-  .leftBox {
-      float: left;
-      color: #999;
-      width: 50%;
-  }
-
-  .rightBox {
-      float: right;
-      color: #aaa;
-      width: 50%;
-  }
-    </style>
+.rightBox {
+    float: right;
+    color: #aaa;
+    width: 50%;
+}
+  </style>
   <title></title>
-
   </head>
     <body>
       @foreach (var message in @Model["messages"])
@@ -94,12 +75,10 @@
               </div>
           }
       }
-
-
       <script type="text/javascript">
-        $(document).ready(function(){
-          $('html, body').scrollTop($(document).height());
-        });
-        </script>
+          $(document).ready(function(){
+            $('html, body').scrollTop($(document).height());
+          });
+      </script>
     </body>
 </html>
