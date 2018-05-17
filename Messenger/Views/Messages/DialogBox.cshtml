@@ -62,6 +62,11 @@ body {
                 <p class="">You: </p>
                 <br>
                 <p class="right">@message.GetText()</p>
+                <br>
+                @if (@message.GetSeen())
+                {
+                    <span>Seen</span>
+                }
               </div>
           } else {
               <div class="container darker leftBox">
@@ -69,10 +74,7 @@ body {
                 <p class="">@Model["connectedUser"].GetName(): </p>
                 <br>
                 <p>@message.GetText()</p>
-                @if (@message.GetSeen())
-                {
-                    <span class="right">Seen</span>
-                }
+
 
               </div>
           }
