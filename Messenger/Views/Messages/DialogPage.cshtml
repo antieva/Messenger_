@@ -10,25 +10,24 @@
     <div class ="container">
       <h1>Message Box</h1>
       <nav class="navBar">
-        <a href="/home">Log out</a>
-        <a href="/">
+        <a href='/home'>Log out</a> |
+        <a href='/users/details/@Model["thisUser"].GetId()'>Return to Profile</a>
       </nav>
 
       <iframe
       frame border="0"
-      src="/messenger/box"
+      src='/box/@Model["thisUser"].GetId()/@Model["connectedUser"].GetId()'
       height="800"
       width="800"></iframe>
-      <form action="/index/new" method="post">
+      <form action='/dialog/@Model["thisUser"].GetId()/@Model["connectedUser"].GetId()' method="post">
         <div class="form-group">
-          <label class= "stylist-name" for="stylist-name">Type Message</label>
-             <input type="text" name="stylist-name" id="stylist-name">
+          <label class="" for="message">Type Message</label>
+          <input type="text" class="form-control" name="message"/>
         </div>
         <br>
-        <div class="form-group">
-          <button class="btn" type="submit">Submit</button>
-        </div>
+        <button class="btn" type="submit">Send message</button>
       </form>
     </div>
+    
   </body>
 </html>

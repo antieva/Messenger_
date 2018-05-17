@@ -35,7 +35,7 @@
               {
                 @if(user.GetId() != @Model["user"].GetId())
                 {
-                  <p><a href="">@user.GetName()</a></p>
+                    <p><a href='/dialog/@Model["user"].GetId()/@user.GetId()'>@user.GetName()</a></p>
                 }
               }
             }
@@ -44,10 +44,7 @@
             <h2>Your connections</h2>
               @foreach (var user in @Model["connections"])
               {
-                @if(user.GetId() != @Model["user"].GetId())
-                {
-                  <p><a href="">@user.GetName()</a></p>
-                }
+                  <p><a href='/dialog/@Model["user"].GetId()/@user.GetId()'>@user.GetName()</a></p>
               }
 
           </div>

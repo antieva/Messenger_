@@ -29,20 +29,9 @@ body{
 button{
   margin-left: 50%;
 }
-.form-signin-heading{
-  font-size: 14pt;
-  font-weight: bold;
-  letter-spacing: .5pt;
-  text-align: center;
-}
 .navBar{
   text-align: center;
   font-size: 15pt;
-}
-.form-control{
-  width: 50%;
-  text-align: center;
-  margin-left: 30%;
 }
 .checkbox{
   margin-left: 35%
