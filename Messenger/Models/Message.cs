@@ -212,6 +212,31 @@ namespace MessengerApp.Models
             return newMessage;
         }
 
+        public static void DeleteConversation(int userId1, int userId2)
+        {
+            MySqlConnection conn = DB.Connection();
+            conn.Open();
+            var cmd = conn.CreateCommand() as MySqlCommand;
+            cmd.CommandText = @"DELETE FROM message WHERE fromUserId = @searchId1 AND toUserId = @searchId2 OR fromUserId = @searchId2 AND toUserId = @searchId1;";
+
+            MySqlParameter searchId1 = new MySqlParameter();
+            searchId1.ParameterName = "@searchId1";
+            searchId1.Value = userId1;
+            cmd.Parameters.Add(searchId1);
+
+            MySqlParameter searchId2 = new MySqlParameter();
+            searchId2.ParameterName = "@searchId2";
+            searchId2.Value = userId2;
+            cmd.Parameters.Add(searchId2);
+
+            cmd.ExecuteNonQuery();
+            conn.Close();
+            if (conn != null)
+            {
+                conn.Dispose();
+            }
+        }
+
         public static void DeleteAll()
         {
             MySqlConnection conn = DB.Connection();

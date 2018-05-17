@@ -67,5 +67,25 @@ namespace MessengerApp.Tests
       CollectionAssert.AreEqual(test, allMessages);
     }
 
+    [TestMethod]
+    public void DeleteConversation_DeleteAllMessagesBetweenTwoUsers_GetAllEmpty()
+    {
+        //Arrange, Act
+        User userOne = new User("Jim", "1234");
+        userOne.Save();
+        User userTwo = new User("Eva", "4321");
+        userTwo.Save();
+
+        Message firstMessage = new Message("Hey Eva!", userOne.GetId(), userTwo.GetId());
+        firstMessage.Save();
+        Message secondMessage = new Message("Hey Jim!", userTwo.GetId(), userOne.GetId());
+        secondMessage.Save();
+
+        Message.DeleteConversation(userOne.GetId(), userTwo.GetId());
+        List<Message> allMessages = Message.GetAll(userOne.GetId(), userTwo.GetId());
+
+        Assert.AreEqual(0, allMessages.Count);
+    }
+
   }
 }

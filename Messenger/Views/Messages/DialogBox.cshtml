@@ -55,8 +55,10 @@ body {
           @if (@message.GetFromUserId() == @Model["thisUser"].GetId())
           {
               <div class="container rightBox">
+              <form action='/dialog/@message.GetId()/@Model["thisUser"].GetId()/@Model["connectedUser"].GetId()' method="get">
                 <button class="btn btn-danger right" type="submit">x</button>
                 <br>
+              </form>
                 <p class="">You: </p>
                 <br>
                 <p class="right">@message.GetText()</p>

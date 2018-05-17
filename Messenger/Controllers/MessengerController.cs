@@ -47,5 +47,35 @@ namespace MessengerApp.Controllers
         model.Add("connectedUser", connectedUser);
         return View("DialogPage", model);
     }
+
+    [HttpGet("/dialog/{id}/{connectionId}/deleteConnection")]
+    public ActionResult DeleteConversation(int id, int connectionId)
+    {
+        User thisUser = MessengerApp.Models.User.Find(id);
+        User connectedUser = MessengerApp.Models.User.Find(connectionId);
+        Message.DeleteConversation(id, connectionId);
+        Dictionary<string, object> model = new Dictionary<string,object>();
+        model.Add("thisUser", thisUser);
+        model.Add("connectedUser", connectedUser);
+        return View("DialogPage", model);
+    }
+
+    [HttpGet("/dialog/{messageId}/{id}/{connectionId}")]
+    public ActionResult DeleteMessage(int messageId, int id, int connectionId)
+    {
+        Message unwantedMessage = Message.Find(messageId);
+        unwantedMessage.Delete();
+        User thisUser = MessengerApp.Models.User.Find(id);
+        User connectedUser = MessengerApp.Models.User.Find(connectionId);
+        List<Message> notSeen = thisUser.GetNotSeen(connectedUser.GetId());
+        thisUser.ChangeToSeen(notSeen);
+        List<Message> messages = Message.GetAll(id,connectionId);
+        Dictionary<string, object> model = new Dictionary<string,object>();
+        model.Add("thisUser", thisUser);
+        model.Add("connectedUser", connectedUser);
+        model.Add("messages", messages);
+
+        return View("DialogBox", model);
+    }
   }
 }
