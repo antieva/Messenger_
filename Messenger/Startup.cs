@@ -36,12 +36,13 @@ namespace MessengerApp
             });
             app.Run(async (context) =>
             {
-                await context.Response.WriteAsync("Hello World!");
+                await context.Response.WriteAsync("Hello World!!!");
+                await context.Response.WriteAsync(Environment.GetEnvironmentVariable("MYSQLCONNSTR_localdb"));
             });
         }
     }
     public static class DBConfiguration
     {
-      public static string ConnectionString = "Database=localdb;Data Source=127.0.0.1:50297;User Id=azure;Password=6#vWHD_$";
+      public static string ConnectionString = "server=127.0.0.1;user id=azure;password=6#vWHD_$;port=50297;database=locadb;";                                              
     }
 }
