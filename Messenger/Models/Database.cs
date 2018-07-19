@@ -7,8 +7,8 @@ namespace MessengerApp.Models
     public class DB
     {
         public static MySqlConnection Connection()
-        {
-            MySqlConnection conn = new MySqlConnection(DBConfiguration.ConnectionString);
+        {            
+            MySqlConnection conn = new MySqlConnection(Environment.GetEnvironmentVariable("MYSQLCONNSTR_localdb"));
             return conn;
         }
     }
