@@ -42,6 +42,6 @@ namespace MessengerApp
     }
     public static class DBConfiguration
     {
-      public static string ConnectionString = "server=localhost;user id=root;password=root;port=8889;database=messenger;";
+      public static string ConnectionString = "Database=localdb;Data Source=127.0.0.1:50297;User Id=azure;Password=6#vWHD_$";
     }
 }
