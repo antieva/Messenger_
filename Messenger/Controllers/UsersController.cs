@@ -52,23 +52,21 @@ namespace MessengerApp.Controllers
       [HttpPost("/users/details")]
       public ActionResult UsersDetails()
       {
-          Console.WriteLine("User name: " + Request.Form["name"]);
-          Console.WriteLine("User password: " + Request.Form["password"]);
           User newUser = MessengerApp.Models.User.DoesExist(Request.Form["name"],Request.Form["password"]);
-          Console.WriteLine("User name: " + newUser);
           if (newUser == null)
           {
               string errorMessage = "Sorry, but your login name or password is not correct.";
               return View("ErrorMessage", errorMessage);
           }
-          List<User> searchedUsers = MessengerApp.Models.User.Search(Request.Form["searchUser"]);
-          List<User> thisUserConnections = newUser.GetConnections();
-          Dictionary<string, object> model = new Dictionary<string, object>();
-          model.Add("user", newUser);
-          model.Add("connections", thisUserConnections);
-          model.Add("search", searchedUsers);
+          int id = newUser.GetId();
+//           List<User> searchedUsers = MessengerApp.Models.User.Search(Request.Form["searchUser"]);
+//           List<User> thisUserConnections = newUser.GetConnections();
+//           Dictionary<string, object> model = new Dictionary<string, object>();
+//           model.Add("user", newUser);
+//           model.Add("connections", thisUserConnections);
+//           model.Add("search", searchedUsers);
 
-          return View(model);
+          return RedirectToAction("UserProfile", new {id = id});
       }
 
       [HttpGet ("/users/details/{id}")]
