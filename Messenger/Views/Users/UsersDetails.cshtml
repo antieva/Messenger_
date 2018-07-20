@@ -27,9 +27,9 @@
               <button type='submit' class='btn btn-primary'>Submit</button>
             </form>
             <div class="foundNames">
-              <p>Click to send a message!</p>
               @if (@Model["search"].Count != 0)
-              {
+              { 
+                <p>Click to send a message!</p>
                 @foreach (var user in @Model["search"])
                 {
                   @if(user.GetId() != @Model["user"].GetId())
