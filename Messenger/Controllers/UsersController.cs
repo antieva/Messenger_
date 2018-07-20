@@ -113,7 +113,7 @@ namespace MessengerApp.Controllers
 
       
 
-      [HttpPost("/users/search/{id}")]
+      [HttpPost("/users/details/{id}")]
       public ActionResult SearchUser(int id)
       {
           User newUser = MessengerApp.Models.User.Find(id);
