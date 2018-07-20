@@ -19,7 +19,7 @@
         </nav>
         <div class="row">
           <div class="col-md-6">
-            <form class="userForm" action='/users/search/@Model["user"].GetId()' method="post">
+            <form class="userForm" action='/users/details/@Model["user"].GetId()' method="post">
               <div class='form-group'>
                 <label class = "searchLabel" for='searchUser'>Find user by name</label>
                 <input name= 'searchUser' class ='form-control inputBox' type='text' placeholder="User Name">
@@ -27,6 +27,7 @@
               <button type='submit' class='btn btn-primary'>Submit</button>
             </form>
             <div class="foundNames">
+            
               @if (@Model["search"].Count != 0)
               { 
                 <p>Click to send a message!</p>
