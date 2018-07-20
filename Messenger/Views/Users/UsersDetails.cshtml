@@ -30,7 +30,7 @@
             
               @if (@Model["search"].Count != 0)
               { 
-                <p>Click to send a message!</p>
+                <p>Click on user name to send a message!</p>
                 @foreach (var user in @Model["search"])
                 {
                   @if(user.GetId() != @Model["user"].GetId())
