@@ -11,14 +11,12 @@ namespace MessengerApp.Controllers
       [HttpPost("/users/new")]
       public ActionResult CreateAccount()
       {
-          Console.WriteLine(User);
-          if (MessengerApp.Models.User.Unique(Request.Form["userName"]))
+          string name = Request.Form["userName"];
+          if (MessengerApp.Models.User.Unique(name.ToLower()))
           {
-              string userPassword1 = Request.Form["userPassword1"];
-              string userPassword2 = Request.Form["userPassword2"];
-              if (userPassword1 == userPassword2)
+              if (Request.Form["userPassword1"] == Request.Form["userPassword2"])
               {
-                User newUser = new User(Request.Form["userName"],Request.Form["userPassword1"]);
+                User newUser = new User(name.ToLower(), Request.Form["userPassword1"]);
                 newUser.Save();
                 return View("NewUser", newUser);
               } else {
