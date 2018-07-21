@@ -6,16 +6,18 @@
 
 ## Description
 
-
+_Messenger is a web site created to let people communicate online. The user can create an account, or login into already existed account, and see all their connection including new messages they has got since last logon. The user can click on any name in their list of connections and will be routed to the dialog page with dialog box conntainig all previuos messages from and to this user from that user on which was clicked. The user can delete any particular message from the dialog box (and database), as well as the whole conversation can be deleted. The user can update their profile or delete it. The user can find another user with whome they don't have a connection yet by typing user name in a search form and hitting "submit" button. The search will return a list of users whose names starts with the letters typed in the search bar._ 
 
 ## Specifications
 
+## Link to the deployed project: https://epicodus-chat.azurewebsites.net
 
 ## Setup/Installation Requirements
 
 * _Clone or download the repository._
 * _Unzip the files into a single directory._
 * _Open the Windows PowerShell and move to the directory_
+* _Change the DB Connection String in Startup.cs file to "server=localhost;user id=root;password=root;port=8889;database=messenger;"_
 * _Run "dotnet restore" command in the PowerShell._
 * _Run "dotnet build" command in the PowerShell._
 * _Run "dotnet run" command in the PowerShell._
