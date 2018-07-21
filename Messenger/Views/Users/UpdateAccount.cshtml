@@ -10,6 +10,10 @@
     <div class="container">
      <h1>CHAT</h1>
      <h3>Messenger App</h3>
+     <nav class="navBar">
+       <a href="/">Logout</a> |
+       <a href='/users/@Model.GetId()'>Back to my Profile</a>
+     </nav>
       <div class="row">
         <div class="col-md-6">
           <form class="userForm" action="/users/@Model.GetId()/update" method="post">

@@ -8,7 +8,7 @@ namespace MessengerApp.Controllers
 {
   public class HomeController : Controller
   {
-    [HttpGet("/home")]
+    [HttpGet("/")]
     public ActionResult Index()
     {
       return View();

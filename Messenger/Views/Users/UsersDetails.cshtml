@@ -14,7 +14,7 @@
        <BR>
        <h2>Welcome, @Model["user"].GetName()</h2>
         <nav class="navBar">
-          <a href="/home">Logout</a> |
+          <a href="/">Logout</a> |
           <a href='/users/@Model["user"].GetId()/update'>Update Profile</a>
         </nav>
         <div class="row">
@@ -27,9 +27,9 @@
               <button type='submit' class='btn btn-primary'>Submit</button>
             </form>
             <div class="foundNames">
-            
+
               @if (@Model["search"].Count != 0)
-              { 
+              {
                 <p>Click on user name to send a message!</p>
                 @foreach (var user in @Model["search"])
                 {
