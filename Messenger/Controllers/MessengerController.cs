@@ -75,7 +75,7 @@ namespace MessengerApp.Controllers
         model.Add("connectedUser", connectedUser);
         model.Add("messages", messages);
 
-        return View("DialogBox", model);
+        return RedirectToAction("Messenger", new {id = id, connectionId = connectionId});
     }
   }
 }
