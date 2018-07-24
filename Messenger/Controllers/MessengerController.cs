@@ -65,15 +65,6 @@ namespace MessengerApp.Controllers
     {
         Message unwantedMessage = Message.Find(messageId);
         unwantedMessage.Delete();
-        User thisUser = MessengerApp.Models.User.Find(id);
-        User connectedUser = MessengerApp.Models.User.Find(connectionId);
-        List<Message> notSeen = thisUser.GetNotSeen(connectedUser.GetId());
-        thisUser.ChangeToSeen(notSeen);
-        List<Message> messages = Message.GetAll(id,connectionId);
-        Dictionary<string, object> model = new Dictionary<string,object>();
-        model.Add("thisUser", thisUser);
-        model.Add("connectedUser", connectedUser);
-        model.Add("messages", messages);
 
         return RedirectToAction("Messenger", new {id = id, connectionId = connectionId});
     }
