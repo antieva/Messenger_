@@ -54,10 +54,8 @@ namespace MessengerApp.Controllers
         User thisUser = MessengerApp.Models.User.Find(id);
         User connectedUser = MessengerApp.Models.User.Find(connectionId);
         Message.DeleteConversation(id, connectionId);
-        Dictionary<string, object> model = new Dictionary<string,object>();
-        model.Add("thisUser", thisUser);
-        model.Add("connectedUser", connectedUser);
-        return View("DialogPage", model);
+      
+        return RedirectToAction("MessengerPage", new {id = id, connectionId = connectionId});
     }
 
     [HttpGet("/dialog/{messageId}/{id}/{connectionId}")]
